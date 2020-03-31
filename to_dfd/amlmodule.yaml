@@ -1,0 +1,22 @@
+name: to_dfd
+description: Convert tsv/csv file to dataframe directory with simple visualization
+moduleIdentifier:
+  namespace: microsoft.com/aml
+  moduleName: to_dfd
+  moduleVersion: 0.0.3
+metadata:
+  annotations:
+    labels:
+    - aml official
+    - data transformation
+inputs:
+- name: input
+  type: [AnyFile, AnyDirectory]
+outputs:
+- name: output
+  type: DataFrameDirectory
+implementation:
+  container:
+    image: ttthree/modules:latest
+    command: [python, to_dfd.py]
+    args: [{inputPath: input}, {outputPath: output}]

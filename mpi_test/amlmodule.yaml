@@ -1,0 +1,69 @@
+moduleIdentifier:
+  namespace: microsoft.com/aml
+  moduleName: "MPI Test Module"
+  moduleVersion: 0.0.5
+type: Mpi
+inputs:
+- name: train_data
+  type:
+  - AnyFile
+  - AnyDirectory
+- name: validate_data
+  type:
+  - AnyFile
+  - AnyDirectory
+- name: pretrained_model
+  type:
+  - AnyFile
+  - AnyDirectory
+- name: architecture
+  type: Enum
+  default: bert_matching_model
+  options:
+  - bert_matching_model
+  - matching_model
+- name: max_epochs
+  type: Integer
+  default: 5
+- name: gradient_accumulation_steps
+  type: Integer
+  default: 1
+outputs:
+- name: model
+  type: AnyDirectory
+- name: eval_output
+  type: AnyDirectory
+implementation:
+  container:
+    amlEnvironment:
+      docker:
+        baseImage: mcr.microsoft.com/azureml/base:intelmpi2018.3-ubuntu16.04
+      python:
+        condaDependencies:
+          name: project_environment
+          channels:
+            - defaults
+          dependencies:
+            - python=3.6.8
+            - pip:
+              - azureml-sdk
+              - torch
+              - horovod[pytorch]
+    command: [/opt/miniconda/envs/amlbert/bin/python, mpi_test.py]
+    args:
+    - --train_data_dir
+    - inputPath: train_data
+    - --validate_data_dir
+    - inputPath: validate_data
+    - --pretrained_model_dir
+    - inputPath: pretrained_model
+    - --architecture
+    - inputValue: architecture
+    - --max_epochs
+    - inputValue: max_epochs
+    - --gradient_accumulation_steps
+    - inputValue: gradient_accumulation_steps
+    - --model_output_dir
+    - outputPath: model
+    - --eval_output_dir
+    - outputPath: eval_output

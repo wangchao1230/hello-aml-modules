@@ -1,0 +1,13 @@
+name: eselect
+description: Selects columns from input file based on the column description in the first line. Similar to cut (and grep), but column names can be used.
+inputs:
+    - {name: columns, type: String, description: 'column name list with ; as delimeter'}
+    - {name: input, type: String, description: 'the input file path, only TSV supported'}
+outputs:
+    - {name: output, description: 'the output file path'}
+implementation:
+    container:
+        image: ttthree/modules:latest
+        command: [
+            python, /home/invoker.py, dotnet, /home/etools/eselect.dll, -f, {inputValue: columns}, {inputPath: input}, {outputPath: output}
+        ]

@@ -1,0 +1,24 @@
+name: eselect2
+description: Selects columns from input file based on the column description in the first line. Similar to cut (and grep), but column names can be used.
+moduleIdentifier:
+  namespace: microsoft.com/bing
+  moduleName: eselect2
+  moduleVersion: 0.0.2
+metadata:
+  annotations:
+    labels:
+    - official
+    - data transformation
+inputs:
+- name: columns
+  type: String
+- name: input
+  type: AnyDirectory
+outputs:
+- name: output
+  type: AnyFile 
+implementation:
+  container:
+    image: ttthree/modules:latest
+    command: [python, /home/invoker.py, dotnet, /home/etools/eselect.dll]
+    args: [-f, {inputValue: columns}, {inputPath: input}, {outputPath: output}]
