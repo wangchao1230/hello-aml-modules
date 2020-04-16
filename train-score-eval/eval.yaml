@@ -1,7 +1,7 @@
 moduleIdentifier:
   namespace: microsoft.com/aml/samples
   moduleName: "Evaluate"
-  moduleVersion: 0.0.3
+  moduleVersion: 0.0.4
 inputs:
 - name: scoring_result
   type: AnyFile
