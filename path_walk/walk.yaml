@@ -1,0 +1,24 @@
+moduleIdentifier:
+  namespace: microsoft.com/aml/samples
+  moduleName: "Path Walk"
+  moduleVersion: 0.0.1
+inputs:
+- name: path
+  type: AnyFile, AnyDirectory
+  label: Path to list files
+implementation:
+  container:
+    amlEnvironment:
+      python:
+        condaDependencies:
+          name: project_environment
+          channels:
+            - defaults
+          dependencies:
+            - python=3.6.8
+            - pip:
+              - azureml-defaults
+    command: [python, walk.py]
+    args: [
+      --path, {inputPath: path}
+    ]
