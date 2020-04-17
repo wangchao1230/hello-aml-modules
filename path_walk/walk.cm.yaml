@@ -4,7 +4,9 @@ moduleIdentifier:
   moduleVersion: 0.0.1
 inputs:
 - name: path
-  type: [AnyFile, AnyDirectory]
+  type: 
+  - AnyFile
+  - AnyDirectory
   label: Path to list files
 implementation:
   container:
