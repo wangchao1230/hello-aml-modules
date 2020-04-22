@@ -1,7 +1,7 @@
 moduleIdentifier:
   namespace: microsoft.com/aml/samples
   moduleName: "Train"
-  moduleVersion: 0.0.4
+  moduleVersion: 0.0.5
 inputs:
 - name: training_data
   type:
@@ -10,8 +10,7 @@ inputs:
   label: Training data organized in the torchvision format/structure
 - name: max_epochs
   type: Integer
-  default: 5
-  label: Maximum number of epochs for the training, default is 5
+  label: Maximum number of epochs for the training
 - name: learning_rate
   type: Float
   default: 0.01
