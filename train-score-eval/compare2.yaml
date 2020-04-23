@@ -35,7 +35,7 @@ implementation:
             - python=3.6.8
             - pip:
               - azureml-defaults
-    command: [python, compare.py]
+    command: [python, compare2.py]
     args: [
       --model1, {inputPath: model1},
       --eval_result1, {inputPath: eval_result1},
