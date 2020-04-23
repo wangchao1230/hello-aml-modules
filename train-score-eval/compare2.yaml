@@ -1,7 +1,7 @@
 moduleIdentifier:
   namespace: microsoft.com/aml/samples
   moduleName: "Compare 2 Models"
-  moduleVersion: 0.0.1
+  moduleVersion: 0.0.2
 inputs:
 - name: model1
   type: AnyFile
