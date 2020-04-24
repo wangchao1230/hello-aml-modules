@@ -21,8 +21,11 @@ inputs:
   optional: True
 outputs:
 - name: best_model
-  type: AnyDirectory
+  type: AnyFile
   label: The better model among the two
+- name: best_result
+  type: AnyFile
+  label: The better model evaluation result among the two
 implementation:
   container:
     amlEnvironment:
@@ -41,5 +44,6 @@ implementation:
       --eval_result1, {inputPath: eval_result1},
       --model2, {inputPath: model2},
       --eval_result2, {inputPath: eval_result2},
-      --best_model, {outputPath: best_model}
+      --best_model, {outputPath: best_model},
+      --best_result, {outputPath: best_result}
     ]

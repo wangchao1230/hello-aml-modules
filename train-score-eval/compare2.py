@@ -7,6 +7,8 @@ parser.add_argument("--eval_result1", type=str, help="The evaluation result of f
 parser.add_argument("--model2", type=str, help="The second model to compare")
 parser.add_argument("--eval_result2", type=str, help="The evaluation result of second model")
 parser.add_argument("--best_model", type=str, help="The better model among the two")
+parser.add_argument("--best_result", type=str, help="The better model evalution result among the two")
+
 
 args = parser.parse_args()
 
