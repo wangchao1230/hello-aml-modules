@@ -3,7 +3,7 @@ moduleIdentifier:
   moduleName: "MPI Train"
   moduleVersion: 0.0.5
 jobType: Mpi
-description: mpi train module
+description: A dummy module to show how to describe MPI module with custom module spec.
 inputs:
 - name: training_data
   type:
