@@ -2,6 +2,7 @@ moduleIdentifier:
   namespace: microsoft.com/aml/samples
   moduleName: "Evaluate"
   moduleVersion: 0.0.4
+description: generate evaluation metrics based on scoring result
 inputs:
 - name: scoring_result
   type: AnyFile
