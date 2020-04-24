@@ -1,7 +1,8 @@
 moduleIdentifier:
   namespace: microsoft.com/aml/samples
-  moduleName: "Train"
+  moduleName: "MPI Train"
   moduleVersion: 0.0.5
+type: Mpi
 inputs:
 - name: training_data
   type:
@@ -22,6 +23,8 @@ outputs:
 implementation:
   container:
     amlEnvironment:
+      docker:
+        baseImage: mcr.microsoft.com/azureml/base:intelmpi2018.3-ubuntu16.04
       python:
         condaDependencies:
           name: project_environment
@@ -30,8 +33,10 @@ implementation:
           dependencies:
             - python=3.6.8
             - pip:
-              - azureml-defaults
-    command: [python, train.py]
+              - azureml-sdk
+              - torch
+              - horovod[pytorch]
+    command: [/opt/miniconda/envs/amlbert/bin/python, mpi_train.py]
     args: [
       --training_data, {inputPath: training_data},
       --max_epochs, {inputValue: max_epochs},
