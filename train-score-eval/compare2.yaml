@@ -2,6 +2,7 @@ moduleIdentifier:
   namespace: microsoft.com/aml/samples
   moduleName: "Compare 2 Models"
   moduleVersion: 0.0.3
+descrition: compare 2 models based on eval result
 inputs:
 - name: model1
   type: AnyFile
