@@ -2,7 +2,7 @@ moduleIdentifier:
   namespace: microsoft.com/aml/samples
   moduleName: "Compare 2 Models"
   moduleVersion: 0.0.3
-descrition: A dummy comparison module takes two models as input and outputs the better one 
+desctiption: A dummy comparison module takes two models as input and outputs the better one 
 inputs:
 - name: model1
   type: AnyFile
