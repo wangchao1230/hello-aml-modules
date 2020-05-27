@@ -1,7 +1,7 @@
 amlModuleIdentifier:
   namespace: microsoft.com/aml/sc
   moduleName: "Tokenizer"
-  moduleVersion: 0.0.10
+  moduleVersion: 0.0.11
 jobType: parallel
 description: Three different tokenizers, 1) TrainingTokenizer -- mimics the tokenization method used for tokenizing words for training LM in QAS; 2)InferenceTokenizer -- mimics the tokenization method used for tokenizing words for trie lookup; 3)SpacyTokenizer -- uses spaCy's default word/sentence tokenizer
 metadata:
@@ -43,7 +43,6 @@ implementation:
     amlEnvironment:
       python:
         condaDependenciesFile: conda_dependency.yaml
-    additionalIncludes: ../sc_utils
     inputData: input_file_path
     outputData: output_dir_path
     entry: tokenizer.py
