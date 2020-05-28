@@ -1,7 +1,7 @@
 amlModuleIdentifier:
   namespace: microsoft.com/aml/samples
   moduleName: "Compare 2 Models"
-  moduleVersion: 0.0.5
+  moduleVersion: 0.0.6
 description: A dummy comparison module takes two models as input and outputs the better one 
 inputs:
 - name: model1
