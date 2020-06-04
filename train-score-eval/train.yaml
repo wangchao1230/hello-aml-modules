@@ -1,24 +1,24 @@
 amlModuleIdentifier:
   namespace: microsoft.com/aml/samples
   moduleName: "Train"
-  moduleVersion: 0.0.5
+  moduleVersion: 0.0.6
 inputs:
 - name: training_data
   type:
   - AnyFile
   - AnyDirectory
-  label: Training data organized in the torchvision format/structure
+  description: Training data organized in the torchvision format/structure
 - name: max_epochs
   type: Integer
-  label: Maximum number of epochs for the training
+  description: Maximum number of epochs for the training
 - name: learning_rate
   type: Float
   default: 0.01
-  label: Learning rate, default is 0.01
+  description: Learning rate, default is 0.01
 outputs:
 - name: model_output
   type: AnyFile
-  label: The output model (zipped)
+  description: The output model (zipped)
 implementation:
   container:
     amlEnvironment:
