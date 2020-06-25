@@ -1,0 +1,26 @@
+{
+	"name": "Python 3 - Miniconda",
+	"context": "..",
+	// With the supported image, it only takes 2 minutes to create your codespace
+	"image":"littlehaes/azureml-demo",
+	//  Dockerfile also works. You could configure your codespace as you like, but it may take 10 minutes.
+	// "dockerFile": "Dockerfile",
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": { 
+		"terminal.integrated.shell.linux": "/bin/bash",
+		"python.pythonPath": "/home/vsonline/conda/bin/python",
+		"python.linting.enabled": true,
+		"python.linting.pylintEnabled": true,
+		"python.linting.pylintPath": "/home/vsonline/conda/bin/pylint"
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"ms-python.python",
+		"wyi273jdeg.covjhmaizg"
+	],
+	
+	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "vsonline"
+}
