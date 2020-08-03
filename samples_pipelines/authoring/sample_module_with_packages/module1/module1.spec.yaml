@@ -1,0 +1,37 @@
+#  This is an auto generated module spec yaml file.
+#  For more details, please refer to https://github.com/Azure/AzureML-Modules/tree/master/specs
+amlModuleIdentifier:
+  moduleName: Basic Module
+  moduleVersion: 0.0.1
+metadata:
+  annotations: {}
+inputs:
+- name: String parameter
+  type: String
+- name: Int parameter
+  type: Integer
+- name: Boolean parameter
+  type: Boolean
+  default: false
+  optional: true
+- name: String parameter with default
+  type: String
+  default: abc
+  optional: true
+outputs: []
+implementation:
+  container:
+    amlEnvironment:
+      python:
+        condaDependenciesFile: module1/conda.yaml
+    command:
+    - python
+    - module1/module1.py
+    args:
+    - --string_parameter
+    - inputValue: String parameter
+    - --int_parameter
+    - inputValue: Int parameter
+    - [--boolean_parameter, inputValue: Boolean parameter]
+    - [--string_parameter_with_default, inputValue: String parameter with default]
+    sourceDirectory: ../

@@ -1,0 +1,37 @@
+#  This is an auto generated module spec yaml file.
+#  For more details, please refer to https://aka.ms/azureml-module-specs
+amlModuleIdentifier:
+  moduleName: Parallel Score Images
+  moduleVersion: 0.0.1
+jobType: parallel
+metadata:
+  annotations:
+    codegenBy: dsl.module
+inputs:
+- name: Images to score
+  type: AnyDirectory
+- name: Optional images to score
+  type: AnyDirectory
+  optional: true
+- name: Trained model
+  type: AnyDirectory
+  argumentName: trained_model
+  optional: true
+outputs:
+- name: Scored dataset
+  type: AnyDirectory
+  argumentName: scored_dataset
+implementation:
+  parallel:
+    amlEnvironment:
+      python:
+        condaDependenciesFile: conda.yaml
+    inputData:
+    - Images to score
+    - Optional images to score
+    outputData: Scored dataset
+    entry: parallel_score.py
+    args:
+    - [--trained_model, inputPath: Trained model]
+    - --scored_dataset
+    - outputPath: Scored dataset

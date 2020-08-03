@@ -1,0 +1,25 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "mpi_module.py",
+            "type": "python",
+            "request": "launch",
+            "args": [
+                "--input_dir",
+                "data\\mpi_module\\inputs\\input_dir",
+                "--output_dir",
+                "data\\mpi_module\\outputs\\output_dir",
+                "--param0",
+                "\"\"",
+                "--param1",
+                "0"
+            ],
+            "console": "integratedTerminal",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "program": "${workspaceFolder}\\mpi_module.py"
+        }
+    ]
+}

@@ -1,0 +1,42 @@
+#  This is an auto generated module spec yaml file.
+#  For more details, please refer to https://aka.ms/azureml-module-specs
+amlModuleIdentifier:
+  moduleName: MPI Module
+  moduleVersion: 0.0.1
+jobType: mpi
+metadata:
+  annotations:
+    codegenBy: dsl.module
+inputs:
+- name: Input dir
+  type: AnyDirectory
+  argumentName: input_dir
+  optional: true
+- name: Param0
+  type: String
+  argumentName: param0
+  default: abc
+  optional: true
+- name: Param1
+  type: Integer
+  argumentName: param1
+  default: 10
+  optional: true
+outputs:
+- name: Output dir
+  type: AnyDirectory
+  argumentName: output_dir
+implementation:
+  container:
+    amlEnvironment:
+      python:
+        condaDependenciesFile: conda.yaml
+    command:
+    - python
+    - mpi_module.py
+    args:
+    - [--input_dir, inputPath: Input dir]
+    - [--param0, inputValue: Param0]
+    - [--param1, inputValue: Param1]
+    - --output_dir
+    - outputPath: Output dir
