@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "basic_module.py",
+            "type": "python",
+            "request": "launch",
+            "args": [
+                "--input_dir",
+                "data\\basic_module\\inputs\\input_dir",
+                "--output_dir",
+                "data\\basic_module\\outputs\\output_dir",
+                "--str_param",
+                "\"\""
+            ],
+            "console": "integratedTerminal",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "program": "${workspaceFolder}\\basic_module.py"
+        }
+    ]
+}

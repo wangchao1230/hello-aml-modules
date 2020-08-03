@@ -1,0 +1,80 @@
+#  This is an auto generated module spec yaml file.
+#  For more details, please refer to https://aka.ms/azureml-module-specs
+amlModuleIdentifier:
+  moduleName: Sample module
+  moduleVersion: 0.0.1
+metadata:
+  annotations:
+    codegenBy: dsl.module
+description: A sample module use different parameter types and customized input/output
+  ports.
+inputs:
+- name: Input dir
+  type: MyDirectory
+  argumentName: input_dir
+  optional: true
+- name: Input file
+  type: MyFile
+  argumentName: input_file
+  optional: true
+- name: Str param
+  type: String
+  argumentName: str_param
+  default: abc
+  optional: true
+- name: Int param
+  type: Integer
+  argumentName: int_param
+  default: 1
+  optional: true
+- name: Float param
+  type: Float
+  argumentName: float_param
+  default: 0.1
+  optional: true
+- name: Bool param
+  type: Boolean
+  argumentName: bool_param
+  default: false
+  optional: true
+- name: Enum param
+  type: Enum
+  argumentName: enum_param
+  default: Enum0
+  options:
+  - Enum0
+  - Enum1
+  - Enum2
+  optional: true
+- name: None param
+  type: String
+  argumentName: none_param
+  optional: true
+outputs:
+- name: Output dir
+  type: MyDirectory
+  argumentName: output_dir
+- name: Output file
+  type: MyFile
+  argumentName: output_file
+implementation:
+  container:
+    amlEnvironment:
+      python:
+        condaDependenciesFile: conda.yaml
+    command:
+    - python
+    - sample_module.py
+    args:
+    - [--input_dir, inputPath: Input dir]
+    - [--input_file, inputPath: Input file]
+    - [--str_param, inputValue: Str param]
+    - [--int_param, inputValue: Int param]
+    - [--float_param, inputValue: Float param]
+    - [--bool_param, inputValue: Bool param]
+    - [--enum_param, inputValue: Enum param]
+    - [--none_param, inputValue: None param]
+    - --output_dir
+    - outputPath: Output dir
+    - --output_file
+    - outputPath: Output file

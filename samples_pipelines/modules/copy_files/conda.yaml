@@ -1,0 +1,9 @@
+channels:
+- defaults
+dependencies:
+- python=3.6.6
+- pip:
+  - --extra-index-url=https://azuremlsdktestpypi.azureedge.net/Pipeline-Wrapper-SDK-Preview/17029130
+  - azureml-defaults==0.1.0.17029130
+  - azureml-pipeline-wrapper==0.1.0.17029130
+name: project_environment

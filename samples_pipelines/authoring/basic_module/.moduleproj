@@ -1,0 +1,3 @@
+modules:
+-   entry: basic_module.py
+    sourceDirectory: .

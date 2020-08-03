@@ -1,0 +1,35 @@
+#  This is an auto generated module spec yaml file.
+#  For more details, please refer to https://aka.ms/azureml-module-specs
+amlModuleIdentifier:
+  moduleName: Basic Module
+  moduleVersion: 0.0.1
+metadata:
+  annotations:
+    codegenBy: dsl.module
+inputs:
+- name: Input dir
+  type: AnyDirectory
+  argumentName: input_dir
+  optional: true
+- name: Str param
+  type: String
+  argumentName: str_param
+  default: some_string
+  optional: true
+outputs:
+- name: Output dir
+  type: AnyDirectory
+  argumentName: output_dir
+implementation:
+  container:
+    amlEnvironment:
+      python:
+        condaDependenciesFile: conda.yaml
+    command:
+    - python
+    - basic_module.py
+    args:
+    - [--input_dir, inputPath: Input dir]
+    - [--str_param, inputValue: Str param]
+    - --output_dir
+    - outputPath: Output dir

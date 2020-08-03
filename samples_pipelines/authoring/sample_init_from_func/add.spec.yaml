@@ -1,0 +1,42 @@
+#  This is an auto generated module spec yaml file.
+#  For more details, please refer to https://aka.ms/azureml-module-specs
+amlModuleIdentifier:
+  moduleName: Add
+  moduleVersion: 0.0.1
+metadata:
+  annotations:
+    codegenBy: dsl.module
+inputs:
+- name: A
+  type: Integer
+  argumentName: a
+  default: 1
+  optional: true
+- name: B
+  type: Integer
+  argumentName: b
+  default: 2
+  optional: true
+- name: C
+  type: Integer
+  argumentName: c
+  default: 3
+  optional: true
+outputs:
+- name: Output file
+  type: AnyFile
+  argumentName: output_file
+implementation:
+  container:
+    amlEnvironment:
+      python:
+        condaDependenciesFile: conda.yaml
+    command:
+    - python
+    - add.py
+    args:
+    - [--a, inputValue: A]
+    - [--b, inputValue: B]
+    - [--c, inputValue: C]
+    - --output_file
+    - outputPath: Output file

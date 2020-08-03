@@ -1,0 +1,80 @@
+#  This is an auto generated module spec yaml file.
+#  For more details, please refer to https://aka.ms/azureml-module-specs
+amlModuleIdentifier:
+  moduleName: Tokenizer
+  moduleVersion: 0.0.1
+metadata:
+  annotations:
+    codegenBy: dsl.module
+description: This is a example tokenizer.
+inputs:
+- name: Input file path
+  type: AnyDirectory
+  argumentName: input_file_path
+  description: Input text file path
+- name: Output to file
+  type: Integer
+  argumentName: output_to_file
+  description: whether to interpret output_dir_path as file to write to, or folder
+    containing file to write to
+  default: 0
+  optional: true
+- name: Input is tsv
+  type: Integer
+  argumentName: input_is_tsv
+  description: bool determining whether to use tsv related options
+  default: 0
+  optional: true
+- name: Delimiter
+  type: String
+  argumentName: delimiter
+  description: optional, delimiter to use if parsing a tsv type file
+  optional: true
+- name: Ignore cols
+  type: Integer
+  argumentName: ignore_cols
+  description: indices of columns to ignore if parsing a tsv
+  optional: true
+- name: Mode
+  type: Enum
+  argumentName: mode
+  description: Tokenizer to use [train, inference, spacy]
+  default: train
+  options:
+  - train
+  - inference
+  - spacy
+  optional: true
+- name: Type
+  type: Enum
+  argumentName: type
+  description: Whether to use word tokenizer or sentence tokenizer
+  default: word
+  options:
+  - word
+  - sentence
+  optional: true
+outputs:
+- name: Output dir path
+  type: AnyDirectory
+  argumentName: output_dir_path
+  description: Output file directory path
+implementation:
+  container:
+    amlEnvironment:
+      python:
+        condaDependenciesFile: conda.yaml
+    command:
+    - python
+    - tokenizer_entry.py
+    args:
+    - --input_file_path
+    - inputPath: Input file path
+    - [--output_to_file, inputValue: Output to file]
+    - [--input_is_tsv, inputValue: Input is tsv]
+    - [--delimiter, inputValue: Delimiter]
+    - [--ignore_cols, inputValue: Ignore cols]
+    - [--mode, inputValue: Mode]
+    - [--type, inputValue: Type]
+    - --output_dir_path
+    - outputPath: Output dir path
