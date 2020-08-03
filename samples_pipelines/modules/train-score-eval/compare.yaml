@@ -5,48 +5,48 @@ amlModuleIdentifier:
 inputs:
 - name: input01
   type: AnyFile
-  label: 'Input #1 of evaluation result to compare'
+  description: 'Input #1 of evaluation result to compare'
   optional: True
 - name: input02
   type: AnyFile
-  label: 'Input #2 of evaluation result to compare'
+  description: 'Input #2 of evaluation result to compare'
   optional: True
 - name: input03
   type: AnyFile
-  label: 'Input #3 of evaluation result to compare'
+  description: 'Input #3 of evaluation result to compare'
   optional: True
 - name: input04
   type: AnyFile
-  label: 'Input #4 of evaluation result to compare'
+  description: 'Input #4 of evaluation result to compare'
   optional: True
 - name: input05
   type: AnyFile
-  label: 'Input #5 of evaluation result to compare'
+  description: 'Input #5 of evaluation result to compare'
   optional: True
 - name: input06
   type: AnyFile
-  label: 'Input #6 of evaluation result to compare'
+  description: 'Input #6 of evaluation result to compare'
   optional: True
 - name: input07
   type: AnyFile
-  label: 'Input #7 of evaluation result to compare'
+  description: 'Input #7 of evaluation result to compare'
   optional: True
 - name: input08
   type: AnyFile
-  label: 'Input #8 of evaluation result to compare'
+  description: 'Input #8 of evaluation result to compare'
   optional: True
 - name: input09
   type: AnyFile
-  label: 'Input #9 of evaluation result to compare'
+  description: 'Input #9 of evaluation result to compare'
   optional: True
 - name: input10
   type: AnyFile
-  label: 'Input #10 of evaluation result to compare'
+  description: 'Input #10 of evaluation result to compare'
   optional: True
 outputs:
 - name: compare_output
   type: AnyDirectory
-  label: Comparison result
+  description: Comparison result
 implementation:
   container:
     amlEnvironment:

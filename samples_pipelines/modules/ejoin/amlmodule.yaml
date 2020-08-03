@@ -11,16 +11,16 @@ metadata:
 inputs:
 - name: leftColumns
   type: String
-  label: The columns of left side to make available in output (semi-colon separated, case sensitive)
+  description: The columns of left side to make available in output (semi-colon separated, case sensitive)
 - name: rightColumns
   type: String
-  label: The columns of right side to make available in output (semi-colon separated, case sensitive)
+  description: The columns of right side to make available in output (semi-colon separated, case sensitive)
 - name: leftKeys
   type: String
-  label: The join keys of left side (semi-colon separated, case sensitive)
+  description: The join keys of left side (semi-colon separated, case sensitive)
 - name: rightKeys
   type: String
-  label: The join keys of right side (semi-colon separated, case sensitive)
+  description: The join keys of right side (semi-colon separated, case sensitive)
 - name: joinType
   type: Enum 
   options: ['HashInner', 'HashDiff', 'HashLeft', 'SortInner', 'SortLeft', 'SortRight', 'SortOuter', 'PresortedInner', 'PresortedLeft', 'PreSortedRight', 'PresortedOuter']

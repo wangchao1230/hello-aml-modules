@@ -5,14 +5,14 @@ amlModuleIdentifier:
 inputs:
 - name: input1
   type: AnyFile
-  label: 'Input #1'
+  description: 'Input #1'
 outputs:
 - name: output1
   type: AnyFile
-  label: 'Output #1'
+  description: 'Output #1'
 - name: output2
   type: AnyFile
-  label: 'Output #2'
+  description: 'Output #2'
 implementation:
   container:
     amlEnvironment:
