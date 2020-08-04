@@ -57,7 +57,7 @@ module1 = execute_python_script_module(
 module2 = execute_python_script_module(
     dataset1=module1.outputs.result_dataset,
 )
-pipeline1 = Pipeline(nodes=[module1, module2], outputs=module2.outputs, name="p1")
+pipeline1 = Pipeline(nodes=[module2, module1], outputs=module2.outputs, name="p1", default_compute_target='aml-compute')
 
 module3 = execute_python_script_module(
     dataset1=pipeline1.outputs.result_dataset,
@@ -72,7 +72,13 @@ module5 = execute_python_script_module(
     dataset2=pipeline2.outputs.result_dataset
 )
 
-pipeline = Pipeline(nodes=[module5, pipeline2], outputs=module5.outputs)
+pipeline = Pipeline(nodes=[pipeline2, module5], outputs=module5.outputs, default_compute_target='aml-compute')
+
+
+# In[ ]:
+
+
+pipeline1.validate()
 
 
 # In[ ]:
