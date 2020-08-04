@@ -1,10 +1,9 @@
 # Introduction to azureml-pipeline-wrapper
 
-The following notebooks provide an introduction to azureml-pipeline-wrapper.
-These notebooks below are designed to go in sequence.
+In this directory, there are two types of notebooks:
 
-1. [sample_simple_module_func.ipynb]: Start with this notebook to understand the basic usage.
-2. [sample_builder_pattern.ipynb]: Intro to builder pattern
-4. [sample_save_as_pipelinedraft.ipynb]: Save as pipelinedraft
-3. [sample_sub_pipeline.ipynb]: Sub pipeline
-5. [sample_pipeline_parameter.ipynb] Pipeline parameter
+* The first type of notebooks will introduce you to core Azure Machine Learning Modules & Pipelines features. They're all located in the [how-to-use](./how-to-use/) folder.
+
+* The second type of notebooks illustrate more sophisticated scenarios, and are independent of each other. These notebooks include:
+
+1. [mpi_parallel_mnist.ipynb](./mpi_parallel_mnist): This notebook demonstrates how to run a batch scoring job using Azure Machine Learning pipelines.
