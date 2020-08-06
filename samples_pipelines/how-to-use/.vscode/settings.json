@@ -1,0 +1,15 @@
+{
+    "yaml.schemas": {
+        "https://raw.githubusercontent.com/mengxhy/aml-cm-schema/master/mergedschema.json": [
+            "authoring/argparser_module/tokenizer_entry.spec.yaml",
+            "authoring/basic_module/basic_module.spec.yaml",
+            "authoring/mpi_module/mpi_module.spec.yaml",
+            "authoring/parallel_score_mnist/parallel_score.spec.yaml",
+            "authoring/sample_init_from_func/add.spec.yaml",
+            "authoring/sample_module_more_types/sample_module.spec.yaml",
+            "modules/copy_files/copy_files.spec.yaml",
+            "modules/noop/1in2out.spec.yaml",
+            "authoring/sample_module_with_packages/module1/module1.spec.yaml"
+        ]
+    }
+}

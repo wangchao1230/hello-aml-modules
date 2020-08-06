@@ -1,0 +1,38 @@
+description: Combines two TSVs by performing a join on the key fields.
+amlModuleIdentifier:
+  namespace: microsoft.com/bing
+  moduleName: ejoin
+  moduleVersion: 0.0.5
+metadata:
+  annotations:
+    labels:
+    - official
+    - data transformation
+inputs:
+- name: leftColumns
+  type: String
+  description: The columns of left side to make available in output (semi-colon separated, case sensitive)
+- name: rightColumns
+  type: String
+  description: The columns of right side to make available in output (semi-colon separated, case sensitive)
+- name: leftKeys
+  type: String
+  description: The join keys of left side (semi-colon separated, case sensitive)
+- name: rightKeys
+  type: String
+  description: The join keys of right side (semi-colon separated, case sensitive)
+- name: joinType
+  type: Enum 
+  options: ['HashInner', 'HashDiff', 'HashLeft', 'SortInner', 'SortLeft', 'SortRight', 'SortOuter', 'PresortedInner', 'PresortedLeft', 'PreSortedRight', 'PresortedOuter']
+- name: leftInput
+  type: [AnyFile, AnyDirectory]
+- name: rightInput
+  type: [AnyFile, AnyDirectory]
+outputs:
+- name: ejoin_output
+  type: AnyFile 
+implementation:
+  container:
+    image: ttthree/modules:latest
+    command: [python, invoker.py, dotnet, /home/etools/ejoin.dll]
+    args: [-a, {inputValue: leftColumns}, -b, {inputValue: rightColumns}, -ka, {inputValue: leftKeys}, -kb, {inputValue: rightKeys}, -j, {inputValue: joinType}, {inputPath: leftInput}, {inputPath: rightInput}, {outputPath: ejoin_output}]

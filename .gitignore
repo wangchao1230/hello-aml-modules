@@ -1,6 +1,8 @@
+.ipynb_checkpoints
 .ipynb_checkpoints/pipeline-checkpoint.ipynb
 .vscode/settings.json
 .vscode/.env
 .vscode/hello-aml-modules.code-workspace
 .vscode/launch.json
 *.pyc
+tmp
