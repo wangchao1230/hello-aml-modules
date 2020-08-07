@@ -1,0 +1,65 @@
+#  This is an auto generated module spec yaml file.
+#  For more details, please refer to https://aka.ms/azureml-module-specs
+amlModuleIdentifier:
+  moduleName: FastText Train
+  moduleVersion: 0.0.40
+description: Train the FastText model. You could adjust the hyperparameters conveniently
+implementation:
+  container:
+    amlEnvironment:
+      python:
+        condaDependenciesFile: fasttext_train/conda.yaml
+    args:
+    - [--training_data_dir, inputPath: Training data dir]
+    - [--validation_data_dir, inputPath: Validation data dir]
+    - [--char2index_dir, inputPath: Char2index dir]
+    - [--epochs, inputValue: Epochs]
+    - [--batch_size, inputValue: Batch size]
+    - [--learning_rate, inputValue: Learning rate]
+    - [--embedding_dim, inputValue: Embedding dim]
+    - --trained_model_dir
+    - outputPath: Trained model dir
+    command:
+    - python
+    - fasttext_train/fasttext_train.py
+    sourceDirectory: ../
+inputs:
+- name: Training data dir
+  type: AnyDirectory
+  argumentName: training_data_dir
+  optional: true
+- name: Validation data dir
+  type: AnyDirectory
+  argumentName: validation_data_dir
+  optional: true
+- name: Char2index dir
+  type: AnyDirectory
+  argumentName: char2index_dir
+  optional: true
+- name: Epochs
+  type: Integer
+  argumentName: epochs
+  default: 1
+  optional: true
+- name: Batch size
+  type: Integer
+  argumentName: batch_size
+  default: 64
+  optional: true
+- name: Learning rate
+  type: Float
+  argumentName: learning_rate
+  default: 0.0005
+  optional: true
+- name: Embedding dim
+  type: Integer
+  argumentName: embedding_dim
+  default: 128
+  optional: true
+metadata:
+  annotations:
+    codegenBy: dsl.module
+outputs:
+- name: Trained model dir
+  type: ModelDirectory
+  argumentName: trained_model_dir

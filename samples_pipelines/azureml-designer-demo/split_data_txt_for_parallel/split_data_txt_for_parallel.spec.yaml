@@ -1,0 +1,67 @@
+#  This is an auto generated module spec yaml file.
+#  For more details, please refer to https://aka.ms/azureml-module-specs
+amlModuleIdentifier:
+  moduleName: Split Data Txt For Parallel
+  moduleVersion: 0.0.13
+description: 'Processing goal: text data set where each line of the file is a piece
+  of data. This module divides    the data set into training set, verification set
+  and test set. The test set is used for a parallel module.'
+implementation:
+  container:
+    amlEnvironment:
+      python:
+        condaDependenciesFile: split_data_txt_for_parallel/conda.yaml
+    args:
+    - [--input_dir, inputPath: Input dir]
+    - [--training_data_ratio, inputValue: Training data ratio]
+    - [--validation_data_ratio, inputValue: Validation data ratio]
+    - [--random_split, inputValue: Random split]
+    - [--seed, inputValue: Seed]
+    - --training_data_output
+    - outputPath: Training data output
+    - --validation_data_output
+    - outputPath: Validation data output
+    - --test_data_output
+    - outputPath: Test data output
+    command:
+    - python
+    - split_data_txt_for_parallel/split_data_txt_for_parallel.py
+    sourceDirectory: ../
+inputs:
+- name: Input dir
+  type: AnyDirectory
+  argumentName: input_dir
+  optional: true
+- name: Training data ratio
+  type: Float
+  argumentName: training_data_ratio
+  default: 0.7
+  optional: true
+- name: Validation data ratio
+  type: Float
+  argumentName: validation_data_ratio
+  default: 0.1
+  optional: true
+- name: Random split
+  type: Boolean
+  argumentName: random_split
+  default: false
+  optional: true
+- name: Seed
+  type: Integer
+  argumentName: seed
+  default: 0
+  optional: true
+metadata:
+  annotations:
+    codegenBy: dsl.module
+outputs:
+- name: Training data output
+  type: AnyDirectory
+  argumentName: training_data_output
+- name: Validation data output
+  type: AnyDirectory
+  argumentName: validation_data_output
+- name: Test data output
+  type: AnyDirectory
+  argumentName: test_data_output
