@@ -1,0 +1,51 @@
+$schema: http://azureml/sdk-2-0/ContainerModule.json
+
+amlModuleIdentifier:
+  namespace: microsoft.com/aml/samples
+  moduleName: Compare 2 Models
+  moduleVersion: 0.0.5
+isDeterministic: True
+jobType: Basic
+description: A dummy comparison module takes two models as input and outputs the better one
+inputs:
+- name: model1
+  type: AnyFile
+  optional: True
+  argumentName: model1
+- name: eval_result1
+  type: AnyFile
+  optional: True
+  argumentName: eval_result1
+- name: model2
+  type: AnyFile
+  optional: True
+  argumentName: model2
+- name: eval_result2
+  type: AnyFile
+  optional: True
+  argumentName: eval_result2
+outputs:
+- name: best_model
+  type: AnyFile
+  argumentName: best_model
+- name: best_result
+  type: AnyFile
+  argumentName: best_result
+implementation:
+  container:
+    amlEnvironment:
+      python:
+        condaDependencies:
+          name: project_environment
+          channels:
+          - defaults
+          dependencies:
+          - python=3.6.8
+          - pip:
+            - azureml-defaults
+      docker:
+        baseImage: mcr.microsoft.com/azureml/base:intelmpi2018.3-ubuntu16.04
+    command: [python, compare2.py]
+    args: [--model1, {inputPath: model1}, --eval_result1, {inputPath: eval_result1}, --model2, {inputPath: model2}, --eval_result2, {inputPath: eval_result2}, --best_model, {outputPath: best_model}, --best_result, {outputPath: best_result}]
+  os: Linux
+...

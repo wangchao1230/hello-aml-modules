@@ -1,0 +1,36 @@
+$schema: http://azureml/sdk-2-0/ContainerModule.json
+
+amlModuleIdentifier:
+  namespace: microsoft.com/aml/samples
+  moduleName: Evaluate
+  moduleVersion: 0.0.4
+isDeterministic: True
+jobType: Basic
+description: A dummy evaluate module
+inputs:
+- name: scoring_result
+  type: AnyFile
+  optional: False
+  argumentName: scoring_result
+outputs:
+- name: eval_output
+  type: AnyDirectory
+  argumentName: eval_output
+implementation:
+  container:
+    amlEnvironment:
+      python:
+        condaDependencies:
+          name: project_environment
+          channels:
+          - defaults
+          dependencies:
+          - python=3.6.8
+          - pip:
+            - azureml-defaults
+      docker:
+        baseImage: mcr.microsoft.com/azureml/base:intelmpi2018.3-ubuntu16.04
+    command: [python, eval.py]
+    args: [--scoring_result, {inputPath: scoring_result}, --eval_output, {outputPath: eval_output}]
+  os: Linux
+...

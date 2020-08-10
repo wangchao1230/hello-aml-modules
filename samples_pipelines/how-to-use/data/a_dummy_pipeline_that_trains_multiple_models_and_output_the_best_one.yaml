@@ -1,0 +1,198 @@
+pipelines:
+  A dummy pipeline that trains multiple models and output the best one:
+    $schema: http://azureml/sdk-2-0/PipelineModule.json
+    name: A dummy pipeline that trains multiple models and output the best one
+    description: select best model trained with different learning rate
+    is_primary: true
+    inputs: {}
+    outputs:
+      best_model:
+        mode: mount
+    graph:
+      A sub pipeline including train/score/eval-b0891284:
+        $ref: /pipelines/A sub pipeline including train/score/eval
+        inputs:
+          input_data:
+            $ref: /datasets/aml_module_training_data
+          test_data:
+            $ref: /datasets/genericcsv_automobile_price_data_raw
+          learning_rate: 0.01
+        outputs:
+          eval_output:
+            mode: mount
+          model_output:
+            mode: mount
+      A sub pipeline including train/score/eval-8c6c3f61:
+        $ref: /pipelines/A sub pipeline including train/score/eval
+        inputs:
+          input_data:
+            $ref: /datasets/aml_module_training_data
+          test_data:
+            $ref: /datasets/genericcsv_automobile_price_data_raw
+          learning_rate: 0.02
+        outputs:
+          eval_output:
+            mode: mount
+          model_output:
+            mode: mount
+      Compare 2 Models-ff8d600f:
+        $ref: /modules/Compare 2 Models
+        inputs:
+          model1:
+            $ref: A sub pipeline including train/score/eval-b0891284/model_output
+          eval_result1:
+            $ref: A sub pipeline including train/score/eval-b0891284/eval_output
+          model2:
+            $ref: A sub pipeline including train/score/eval-8c6c3f61/model_output
+          eval_result2:
+            $ref: A sub pipeline including train/score/eval-8c6c3f61/eval_output
+        outputs:
+          best_model:
+            mode: mount
+          best_result:
+            mode: mount
+    target: aml:compute_targets/gpu-cluster
+  A sub pipeline including train/score/eval:
+    $schema: http://azureml/sdk-2-0/PipelineModule.json
+    type: PipelineModule
+    name: A sub pipeline including train/score/eval
+    description: train model and evaluate model perf
+    is_primary: false
+    inputs:
+      input_data:
+        default:
+        type: Any
+      test_data:
+        default:
+        type: Any
+      learning_rate:
+        default:
+        type: Any
+    outputs:
+      eval_output:
+        mode: mount
+      model_output:
+        mode: mount
+    graph:
+      MPI Train-19fff1d0:
+        $ref: /modules/MPI Train
+        inputs:
+          training_data:
+            $ref: inputs/input_data
+          max_epochs: 5
+          learning_rate:
+            $ref: inputs/learning_rate
+        outputs:
+          model_output:
+            mode: mount
+        runsettings:
+          node_count: 2
+          process_count_per_node: 2
+      Score-4ebc4ef8:
+        $ref: /modules/Score
+        inputs:
+          model_input:
+            $ref: MPI Train-19fff1d0/model_output
+          test_data:
+            $ref: inputs/test_data
+        outputs:
+          score_output:
+            mode: mount
+      Evaluate-b0891284:
+        $ref: /modules/Evaluate
+        inputs:
+          scoring_result:
+            $ref: Score-4ebc4ef8/score_output
+        outputs:
+          eval_output:
+            mode: mount
+modules:
+  MPI Train:
+    $schema: http://azureml/sdk-2-0/ContainerModule.json
+    module_id: 8cd644a9-f71c-4128-b76a-08b027b27629
+    version: 0.0.5
+    name: MPI Train
+    namespace: microsoft.com/aml/samples
+    description: A dummy module to show how to describe MPI module with custom module
+      spec.
+    creation_context:
+      user: Brynn Yin
+      create_time: 2020-08-10 03:41:56.232911+00:00
+    structured_interface:
+      outputs:
+        model_output:
+          label: model_output
+          description: The output model (zipped)
+          data_type_id: AnyFile
+  Score:
+    $schema: http://azureml/sdk-2-0/ContainerModule.json
+    module_id: 46dad2ad-5774-4dc3-91d8-8502ac565024
+    version: 0.0.3
+    name: Score
+    namespace: microsoft.com/aml/samples
+    description: A dummy scoring module
+    creation_context:
+      user: Clement Wang
+      create_time: 2020-05-11 16:11:23.449820+00:00
+    structured_interface:
+      outputs:
+        score_output:
+          label: score_output
+          description:
+          data_type_id: AnyFile
+  Evaluate:
+    $schema: http://azureml/sdk-2-0/ContainerModule.json
+    module_id: 1af793be-561f-49f9-9c61-f4dfce75d027
+    version: 0.0.4
+    name: Evaluate
+    namespace: microsoft.com/aml/samples
+    description: A dummy evaluate module
+    creation_context:
+      user: Clement Wang
+      create_time: 2020-05-11 16:11:31.742095+00:00
+    structured_interface:
+      outputs:
+        eval_output:
+          label: eval_output
+          description:
+          data_type_id: AnyDirectory
+  Compare 2 Models:
+    $schema: http://azureml/sdk-2-0/ContainerModule.json
+    module_id: 636ec5fe-bdf5-49c8-948d-ab733315fb2f
+    version: 0.0.5
+    name: Compare 2 Models
+    namespace: microsoft.com/aml/samples
+    description: A dummy comparison module takes two models as input and outputs the
+      better one
+    creation_context:
+      user: Clement Wang
+      create_time: 2020-05-11 16:11:40.651847+00:00
+    structured_interface:
+      outputs:
+        best_model:
+          label: best_model
+          description:
+          data_type_id: AnyFile
+        best_result:
+          label: best_result
+          description:
+          data_type_id: AnyFile
+datasets:
+  aml_module_training_data:
+    $schema: http://azureml/sdk-2-0/Dataset.json
+    type: Dataset
+    name: aml_module_training_data
+    description: Training data (just for illustrative purpose)
+    version: 1
+    tags: {}
+    registered_id: 26244731-3820-4c47-a871-70461c69eee1
+    saved_id: 3680fe5e-306b-4489-ba3d-02e9afd12d9d
+    nodeId: e49c009e-ced8-3190-914e-d445fe95197a
+  genericcsv_automobile_price_data_raw:
+    $schema: http://azureml/sdk-2-0/Dataset.json
+    type: Dataset
+    name: genericcsv_automobile_price_data_raw
+    data_reference_name: genericcsv_automobile_price_data_raw
+    path_on_datastore: GenericCSV/Automobile_price_data_(Raw)
+    datastore: azureml_globaldatasets
+    nodeId: fada1314-c106-37d2-81dc-6ea1068f7f9a
