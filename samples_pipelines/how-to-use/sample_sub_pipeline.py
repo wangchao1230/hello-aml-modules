@@ -7,6 +7,7 @@
 # In[ ]:
 
 
+import os
 import json
 from azureml.core import Workspace, Dataset
 from azureml.pipeline.wrapper import Module, dsl
@@ -27,10 +28,20 @@ print(ws.name, ws.resource_group, ws.location, ws.subscription_id, sep='\n')
 # Module
 execute_python_script_module = Module.load(ws, namespace='azureml', name='Execute Python Script')
 
+# Basic Module
+basic_yaml_file = os.path.join('modules', 'hello_world', 'module_spec.yaml')
+basic_module_func = Module.from_yaml(ws, basic_yaml_file)
+
+# MPI Module
+mpi_yaml_file = os.path.join('modules', 'mpi_module', 'module_spec.yaml')
+mpi_module_func = Module.from_yaml(ws, mpi_yaml_file)
+
+# Parallel Module
+parallel_yaml_file = os.path.join('modules', 'parallel_module', 'copy_files.yaml')
+parallel_module_func = Module.from_yaml(ws, parallel_yaml_file)
 
 # TODO: Dataset
 blob_input_data = get_global_dataset_by_path(ws, 'Automobile_price_data', 'GenericCSV/Automobile_price_data_(Raw)')
-
 
 # In[ ]:
 
@@ -96,19 +107,34 @@ def sub_pipeline2(input):
 
 @dsl.pipeline(name='parent graph', description='parent', default_compute_target="aml-compute")
 def parent_pipeline():
-    @dsl.pipeline(name='internal sub graph', description='internal sub')
-    def sub_pipeline_internal(input):
-        module1 = execute_python_script_module(
-            # should be pipeline input
-            dataset1=input,
+    @dsl.pipeline(name='different type module', description='different type module', default_compute_target="aml-compute")
+    def diff_type_pipeline(input, str_param, int_param, bool_param, enun_param):
+        basic_module = basic_module_func(
+            input_path=input,
+            string_parameter= str_param,
+            int_parameter= int_param,
+            boolean_parameter = bool_param,
+            enum_parameter=enun_param
         )
-        module2 = execute_python_script_module(
-            dataset1=module1.outputs.result_dataset,
-        )
-        return module2.outputs
 
-    sub0 = sub_pipeline_internal(blob_input_data)
-    sub1 = sub_pipeline1(sub0.outputs.result_dataset)
+        # mpi module
+        mpi_module = mpi_module_func(
+            input_path=basic_module.outputs.output_path,
+            string_parameter= str_param,
+            int_parameter= int_param,
+            boolean_parameter = bool_param,
+            enum_parameter=enun_param
+        )
+        mpi_module.runsettings.configure(process_count_per_node=3, node_count=2)
+
+        # parallel module
+        parallel_module = parallel_module_func(
+            input_folder=mpi_module.outputs.output_path
+        )
+        return mpi_module.outputs
+
+    sub0 = diff_type_pipeline(blob_input_data, 'str_param', 10, True, "option2")
+    sub1 = sub_pipeline1(sub0.outputs.output_path)
     sub2 = sub_pipeline2(sub1.outputs.result_dataset)
     module2 = execute_python_script_module(
         dataset1=sub2.outputs.result_dataset,
@@ -117,6 +143,7 @@ def parent_pipeline():
 
     external = external_sub_pipeline0(sub1.outputs.result_dataset)
     return module2.outputs
+
 
 
 # In[ ]:
@@ -133,3 +160,14 @@ run.wait_for_completion()
 pipeline1.save(
     experiment_name='module_SDK_test'
 )
+
+
+# In[ ]:
+
+
+pipeline1 = parent_pipeline()
+
+run = pipeline1.run(
+    experiment_name='module_SDK_test', show_output=True, show_graph=True
+)
+run
