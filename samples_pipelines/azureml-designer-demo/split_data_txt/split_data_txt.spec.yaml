@@ -2,7 +2,7 @@
 #  For more details, please refer to https://aka.ms/azureml-module-specs
 amlModuleIdentifier:
   moduleName: Split Data Txt
-  moduleVersion: 0.0.41
+  moduleVersion: 0.0.42
 description: 'Processing objects: text format data set, each line of the text file
   is a piece of data,     this module divides the data set into training set, verification
   set and test set.'
@@ -10,7 +10,7 @@ implementation:
   container:
     amlEnvironment:
       python:
-        condaDependenciesFile: split_data_txt/conda.yaml
+        condaDependenciesFile: conda.yaml
     args:
     - [--input_dir, inputPath: Input dir]
     - [--training_data_ratio, inputValue: Training data ratio]
@@ -25,8 +25,7 @@ implementation:
     - outputPath: Test data output
     command:
     - python
-    - split_data_txt/split_data_txt.py
-    sourceDirectory: ../
+    - split_data_txt.py
 inputs:
 - name: Input dir
   type: AnyDirectory

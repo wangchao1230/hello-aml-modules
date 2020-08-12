@@ -3,8 +3,7 @@ channels:
 dependencies:
 - python=3.6.6
 - pip:
-  - --extra-index-url=https://azuremlsdktestpypi.azureedge.net/CLI-SDK-Runners-Validation/19134211
-  - azureml-defaults==0.1.0.19134211
-  - azureml-pipeline-wrapper==0.1.0.19134211
-  - pyyaml
+  - --extra-index-url=https://azuremlsdktestpypi.azureedge.net/CLI-SDK-Runners-Validation/19323974
+  - azureml-defaults==0.1.0.19323974
+  - azureml-pipeline-wrapper==0.1.0.19323974
 name: project_environment

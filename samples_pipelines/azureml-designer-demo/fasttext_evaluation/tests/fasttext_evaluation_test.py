@@ -16,20 +16,21 @@ class TestFasttextEvaluation(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.workspace = Workspace.from_config(str(Path(__file__).parent.parent / 'config.json'))
-        cls.base_path = Path(__file__).parent.parent / 'data'
+        cls.base_path = Path(__file__).parent.parent.parent
 
     def prepare_inputs(self) -> dict:
         # Change to your own inputs
         return {
-            'trained_model_dir': str(self.base_path / 'fasttext_evaluation' / 'inputs' / 'trained_model_dir'),
-            'test_data_dir': str(self.base_path / 'fasttext_evaluation' / 'inputs' / 'test_data_dir'),
-            'char2index_dir': str(
-                self.base_path / 'fasttext_evaluation' / 'inputs' / 'char2index_dir')
+            'trained_model_dir': str(self.base_path / 'fasttext_train' / 'data' / 'fasttext_train'
+                                     / 'outputs' / 'trained_model_dir'),
+            'test_data_dir': str(self.base_path / 'split_data_txt' / 'data' / 'split_data_txt'
+                                       / 'outputs' / 'test_data_output')
         }
 
     def prepare_outputs(self) -> dict:
         # Change to your own outputs
-        return {'model_testing_result': str(self.base_path / 'fasttext_evaluation' / 'outputs' / 'model_testing_result')}
+        return {'model_testing_result': str(self.base_path / 'fasttext_evaluation' / 'data'
+                                            / 'fasttext_evaluation' / 'outputs' / 'model_testing_result')}
 
     def prepare_arguments(self) -> dict:
         # If your input's type is not Path, change this function to your own type.

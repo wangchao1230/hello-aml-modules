@@ -1,5 +1,6 @@
 import os
 import sys
+import shutil
 import random
 
 from azureml.core import Run
@@ -9,7 +10,7 @@ from azureml.pipeline.wrapper.dsl.module import ModuleExecutor, OutputDirectory,
 
 @dsl.module(
     name="Split Data Txt",
-    version='0.0.41',
+    version='0.0.42',
     description='Processing objects: text format data set, each line of the text file is a piece of data, \
     this module divides the data set into training set, verification set and test set.'
 )
@@ -26,8 +27,8 @@ def split_data_txt(
     # hardcode: data.txt
     print('============================================')
     print(f"value of input_dir:'{input_dir}', type of input_dir:'{type(input_dir)}'")
-    input_dir = os.path.join(input_dir, 'data.txt')
-    with open(input_dir, 'r', encoding='utf-8') as f:
+    path_input_data = os.path.join(input_dir, 'data.txt')
+    with open(path_input_data, 'r', encoding='utf-8') as f:
         data = f.readlines()
     random.seed(seed if random_split else 0)
     random.shuffle(data)
@@ -48,14 +49,25 @@ def split_data_txt(
     run.log(name='num of training data', value=len(train))
     run.log(name='num of validation data', value=len(dev))
     run.log(name='num of test_data', value=len(test))
+    path_label = os.path.join(input_dir, 'label.txt')
+    path_word_to_index = os.path.join(input_dir, 'word_to_index.json')
+
     os.makedirs(training_data_output, exist_ok=True)
+    shutil.copy(src=path_label, dst=training_data_output)
+    shutil.copy(src=path_word_to_index, dst=training_data_output)
     path = os.path.join(training_data_output, "data.txt")
     with open(path, 'w', encoding='utf-8') as f:
         f.writelines(train)
+
+    shutil.copy(src=path_label, dst=validation_data_output)
+    shutil.copy(src=path_word_to_index, dst=validation_data_output)
     os.makedirs(validation_data_output, exist_ok=True)
     path = os.path.join(validation_data_output, "data.txt")
     with open(path, 'w', encoding='utf-8') as f:
         f.writelines(dev)
+
+    shutil.copy(src=path_label, dst=test_data_output)
+    shutil.copy(src=path_word_to_index, dst=test_data_output)
     os.makedirs(test_data_output, exist_ok=True)
     path = os.path.join(test_data_output, "data.txt")
     with open(path, 'w', encoding='utf-8') as f:

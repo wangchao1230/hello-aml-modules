@@ -2,36 +2,35 @@
 #  For more details, please refer to https://aka.ms/azureml-module-specs
 amlModuleIdentifier:
   moduleName: FastText Score
-  moduleVersion: 0.0.21
-description: Predict the category of the input sentence
+  moduleVersion: 0.0.22
+description: Predict the categories of the input sentences
 implementation:
-  container:
+  parallel:
     amlEnvironment:
       python:
         condaDependenciesFile: fasttext_score/conda.yaml
     args:
     - [--fasttext_model_dir, inputPath: Fasttext model dir]
-    - [--char2index_dir, inputPath: Char2index dir]
-    - [--input_sentence, inputValue: Input sentence]
-    command:
-    - python
-    - fasttext_score/fasttext_score.py
+    - --scored_data_output_dir
+    - outputPath: Scored data output dir
+    entry: fasttext_score/fasttext_score.py
+    inputData:
+    - Texts to score
+    outputData: Scored data output dir
     sourceDirectory: ../
 inputs:
+- name: Texts to score
+  type: AnyDirectory
+  argumentName: texts_to_score
 - name: Fasttext model dir
   type: AnyDirectory
   argumentName: fasttext_model_dir
   optional: true
-- name: Char2index dir
-  type: AnyDirectory
-  argumentName: char2index_dir
-  optional: true
-- name: Input sentence
-  type: String
-  argumentName: input_sentence
-  default: I like playing football very much
-  optional: true
+jobType: parallel
 metadata:
   annotations:
     codegenBy: dsl.module
-outputs: []
+outputs:
+- name: Scored data output dir
+  type: AnyDirectory
+  argumentName: scored_data_output_dir

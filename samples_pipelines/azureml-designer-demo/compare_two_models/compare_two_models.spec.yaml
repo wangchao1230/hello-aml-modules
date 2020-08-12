@@ -8,7 +8,7 @@ implementation:
   container:
     amlEnvironment:
       python:
-        condaDependenciesFile: compare_two_models/conda.yaml
+        condaDependenciesFile: conda.yaml
     args:
     - [--first_trained_model, inputPath: First trained model]
     - [--first_trained_result, inputPath: First trained result]
@@ -18,8 +18,7 @@ implementation:
     - outputPath: The better model
     command:
     - python
-    - compare_two_models/compare_two_models.py
-    sourceDirectory: ../
+    - compare_two_models.py
 inputs:
 - name: First trained model
   type: AnyDirectory

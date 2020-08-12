@@ -16,24 +16,26 @@ class TestFasttextTrain(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.workspace = Workspace.from_config(str(Path(__file__).parent.parent / 'config.json'))
-        cls.base_path = Path(__file__).parent.parent / 'data'
+        cls.base_path = Path(__file__).parent.parent.parent
 
     def prepare_inputs(self) -> dict:
         # Change to your own inputs
         return {
-            'training_data_dir': str(self.base_path / 'fasttext_train' / 'inputs' / 'training_data_dir'),
-            'validation_data_dir': str(self.base_path / 'fasttext_train' / 'inputs' / 'validation_data_dir'),
-            'char2index_dir': str(self.base_path / 'fasttext_train' / 'inputs' / 'char2index_dir')
+            'training_data_dir': str(self.base_path / 'split_data_txt' / 'data' / 'split_data_txt'
+                                     / 'outputs' / 'training_data_output'),
+            'validation_data_dir': str(self.base_path / 'split_data_txt' / 'data' / 'split_data_txt'
+                                       / 'outputs' / 'validation_data_output')
         }
 
     def prepare_outputs(self) -> dict:
         # Change to your own outputs
-        return {'trained_model_dir': str(self.base_path / 'fasttext_train' / 'outputs' / 'trained_model_dir')}
+        return {'trained_model_dir': str(
+            self.base_path / 'fasttext_train' / 'data' / 'fasttext_train' / 'outputs' / 'trained_model_dir')}
 
     def prepare_parameters(self) -> dict:
         # Change to your own parameters
         return {'epochs': 2,
-                'batch_size': 64,
+                'batch_size': 128,
                 'learning_rate': 0.0005,
                 'embedding_dim': 128
                 }

@@ -1,9 +1,10 @@
+import os
 import sys
 import unittest
 from pathlib import Path
 
-from azureml.core import Workspace
-from azureml.pipeline.wrapper import Module
+import pandas as pd
+from azureml.pipeline.wrapper.dsl.module import ModuleExecutor
 
 # The following line adds source directory to path.
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -14,37 +15,49 @@ class TestFasttextScore(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.workspace = Workspace.from_config(str(Path(__file__).parent.parent / 'config.json'))
-        cls.base_path = Path(__file__).parent.parent / 'data'
+        cls.base_path = Path(__file__).parent.parent.parent
 
     def prepare_inputs(self) -> dict:
         # Change to your own inputs
-        return {
-            'fasttext_model_dir': str(self.base_path / 'fasttext_score' / 'inputs' / 'fasttext_model_dir'),
-            'char2index_dir': str(self.base_path / 'fasttext_score' / 'inputs' / 'char2index_dir')
-        }
+        return {'fasttext_model_dir': str(self.base_path / 'fasttext_train' / 'data' / 'fasttext_train'
+                                          / 'outputs' / 'trained_model_dir'),
+                'texts_to_score': str(self.base_path / 'data_for_batch_inference')
+                }
 
-    def prepare_parameters(self) -> dict:
-        # Change to your own parameters
-        return {'input_sentence': '坚持运动是个好习惯, 不妨每天坚持踢足球'}
+    def prepare_outputs(self) -> dict:
+        # Change to your own outputs
+        return {
+            'scored_data_output_dir': str(self.base_path / 'fasttext_score' / 'data'
+                                          / 'fasttext_score' / 'outputs' / 'scored_data_output_dir')}
 
     def prepare_arguments(self) -> dict:
         # If your input's type is not Path, change this function to your own type.
         result = {}
         result.update(self.prepare_inputs())
-        result.update(self.prepare_parameters())
+        result.update(self.prepare_outputs())
         return result
 
-    def test_module_from_func(self):
-        # This test calls fasttext_score from cmd line arguments.
-        local_module = Module.from_func(self.workspace, fasttext_score)
-        module = local_module()
-        module.set_inputs(**self.prepare_inputs())
-        module.set_parameters(**self.prepare_parameters())
-        status = module.run(use_docker=True)
-        self.assertEqual(status, 'Completed', 'Module run failed.')
+    def prepare_argv(self):
+        argv = []
+        for k, v in {**self.prepare_inputs(), **self.prepare_outputs()}.items():
+            argv += ['--' + k, str(v)]
+        return argv
 
-    def test_module_func(self):
-        # This test calls fasttext_score from parameters directly.
-        fasttext_score(**self.prepare_arguments())
-        # This module shows the result in "Metrics" on designer
+    def test_module_with_execute(self):
+        # delete files created before
+        result_dir = '../data/fasttext_score/outputs/scored_data_output_dir'
+        os.makedirs(result_dir, exist_ok=True)
+        if len(os.listdir(result_dir)) > 0:
+            for file in os.listdir(result_dir):
+                path = os.path.join(result_dir, file)
+                os.remove(path)
+        # This test simulates a parallel run from cmd line arguments to call fasttext_score_parallel.
+        ModuleExecutor(fasttext_score).execute(self.prepare_argv())
+        data_dir = '../../data_for_batch_inference'
+        num_of_test_file = len(os.listdir(data_dir))
+        num_of_test_result = 0
+        for file in os.listdir(result_dir):
+            path = os.path.join(result_dir, file)
+            num = pd.read_parquet(path).shape[0]
+            num_of_test_result += num
+        self.assertEqual(num_of_test_file, num_of_test_result)

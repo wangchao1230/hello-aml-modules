@@ -12,7 +12,6 @@ implementation:
     args:
     - [--training_data_dir, inputPath: Training data dir]
     - [--validation_data_dir, inputPath: Validation data dir]
-    - [--char2index_dir, inputPath: Char2index dir]
     - [--epochs, inputValue: Epochs]
     - [--batch_size, inputValue: Batch size]
     - [--learning_rate, inputValue: Learning rate]
@@ -31,10 +30,6 @@ inputs:
 - name: Validation data dir
   type: AnyDirectory
   argumentName: validation_data_dir
-  optional: true
-- name: Char2index dir
-  type: AnyDirectory
-  argumentName: char2index_dir
   optional: true
 - name: Epochs
   type: Integer

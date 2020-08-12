@@ -12,7 +12,6 @@ implementation:
     args:
     - [--trained_model_dir, inputPath: Trained model dir]
     - [--test_data_dir, inputPath: Test data dir]
-    - [--char2index_dir, inputPath: Char2index dir]
     - --model_testing_result
     - outputPath: Model testing result
     command:
@@ -27,10 +26,6 @@ inputs:
 - name: Test data dir
   type: AnyDirectory
   argumentName: test_data_dir
-  optional: true
-- name: Char2index dir
-  type: AnyDirectory
-  argumentName: char2index_dir
   optional: true
 metadata:
   annotations:

@@ -1,0 +1,30 @@
+{
+	"name": "AzuremlSDK-Python3-Miniconda",
+	"image":"littlehaes/azureml-sdk",
+	// If you don't use 'image', you could build your own environment with 'Dockerfile'.
+	// Path that the Codespaces docker build command should be run from, relative to devcontainer.json
+	// "context": ".",
+	// With the supported image, it only takes 2 minutes to create your codespace
+	//  Dockerfile also works. You could configure your codespace as you like, but it may take 10 minutes.
+	// "dockerFile": "Dockerfile",
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": { 
+		"terminal.integrated.shell.linux": "/bin/bash"
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"ms-python.python",
+		"wyi273jdeg.covjhmaizg",
+		"ms-toolsai.vscode-ai"
+	],
+	
+	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "vsonline",
+	
+	"runArgs": ["-v", "/var/run/docker.sock:/var/run/docker.sock"]
+  	// "mounts": ["source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"],
+
+  	// "postCreateCommand":"git clone https://github.com/smallhaes/codespace-azureml-update.git ~/codespace-azureml-update && echo 'source ~/codespace-azureml-update/check_for_update.sh' >> ~/.bashrc"
+}

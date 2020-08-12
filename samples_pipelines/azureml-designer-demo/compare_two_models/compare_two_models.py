@@ -33,7 +33,7 @@ def compare_two_models(
     result_first = json.load(open(path, 'r'))['acc']
     path = os.path.join(second_trained_result, 'result.json')
     second_first = json.load(open(path, 'r'))['acc']
-    dst = os.path.join(the_better_model, 'BestModel')
+    dst = the_better_model
     if result_first >= second_first:
         print('choose the first model')
         run.log(name='which one', value='first')
@@ -44,6 +44,10 @@ def compare_two_models(
         run.log(name='which one', value='second')
         src = os.path.join(second_trained_model, 'BestModel')
         shutil.copy(src=src, dst=dst)
+    path_word_to_index = os.path.join(first_trained_model, 'word_to_index.json')
+    path_label = os.path.join(first_trained_model, 'label.txt')
+    shutil.copy(src=path_word_to_index, dst=dst)
+    shutil.copy(src=path_label, dst=dst)
     print('=====================================================')
 
 
