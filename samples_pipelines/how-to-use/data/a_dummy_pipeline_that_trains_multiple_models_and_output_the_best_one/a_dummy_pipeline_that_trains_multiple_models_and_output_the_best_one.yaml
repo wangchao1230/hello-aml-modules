@@ -1,5 +1,5 @@
 $schema: http://azureml/sdk-2-0/PipelineModule.json
-name: A dummy pipeline that trains multiple models and output the best one
+name: a_dummy_pipeline_that_trains_multiple_models_and_output_the_best_one
 description: select best model trained with different learning rate
 is_primary: true
 inputs: {}
@@ -7,43 +7,46 @@ outputs:
   best_model:
     mode: mount
 graph:
-  A sub pipeline including train/score/eval-9ac3f118:
+  train_and_evalute_model1:
     $ref: a_sub_pipeline_including_train_score_eval.yaml
+    type: PipelineModule
     inputs:
       input_data:
-        $ref: datasets/aml_module_training_data.yaml
+        $inputPath: datasets/aml_module_training_data.yaml
       test_data:
-        $ref: datasets/genericcsv_automobile_price_data_raw.yaml
+        $inputPath: datasets/genericcsv_automobile_price_data_raw.yaml
       learning_rate: 0.01
     outputs:
       eval_output:
         mode: mount
       model_output:
         mode: mount
-  A sub pipeline including train/score/eval-442040c5:
+  train_and_evalute_model2:
     $ref: a_sub_pipeline_including_train_score_eval.yaml
+    type: PipelineModule
     inputs:
       input_data:
-        $ref: datasets/aml_module_training_data.yaml
+        $inputPath: datasets/aml_module_training_data.yaml
       test_data:
-        $ref: datasets/genericcsv_automobile_price_data_raw.yaml
+        $inputPath: datasets/genericcsv_automobile_price_data_raw.yaml
       learning_rate: 0.02
     outputs:
       eval_output:
         mode: mount
       model_output:
         mode: mount
-  Compare 2 Models-b714be28:
+  compare:
     $ref: modules/compare_2_models.yaml
+    type: ContainerModule
     inputs:
       model1:
-        $ref: A sub pipeline including train/score/eval-9ac3f118/model_output
+        $inputPath: train_and_evalute_model1/model_output
       eval_result1:
-        $ref: A sub pipeline including train/score/eval-9ac3f118/eval_output
+        $inputPath: train_and_evalute_model1/eval_output
       model2:
-        $ref: A sub pipeline including train/score/eval-442040c5/model_output
+        $inputPath: train_and_evalute_model2/model_output
       eval_result2:
-        $ref: A sub pipeline including train/score/eval-442040c5/eval_output
+        $inputPath: train_and_evalute_model2/eval_output
     outputs:
       best_model:
         mode: mount

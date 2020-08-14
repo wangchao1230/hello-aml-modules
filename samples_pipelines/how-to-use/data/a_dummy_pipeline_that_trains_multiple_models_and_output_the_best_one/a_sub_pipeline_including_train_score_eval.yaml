@@ -1,53 +1,56 @@
 $schema: http://azureml/sdk-2-0/PipelineModule.json
 type: PipelineModule
-name: A sub pipeline including train/score/eval
+name: a_sub_pipeline_including_train_score_eval
 description: train model and evaluate model perf
 is_primary: false
 inputs:
   input_data:
     default:
-    type: Any
+    type: dict
   test_data:
     default:
-    type: Any
+    type: dict
   learning_rate:
     default:
-    type: Any
+    type: float
 outputs:
   eval_output:
     mode: mount
   model_output:
     mode: mount
 graph:
-  MPI Train-f603dea4:
+  train:
     $ref: modules/mpi_train.yaml
+    type: ContainerModule
     inputs:
       training_data:
-        $ref: inputs/input_data
+        $inputPath: datasets/aml_module_training_data.yaml
       max_epochs: 5
       learning_rate:
-        $ref: inputs/learning_rate
+        $inputValue: inputs/learning_rate
     outputs:
       model_output:
         mode: mount
     runsettings:
       node_count: 2
       process_count_per_node: 2
-  Score-9afa682f:
+  score:
     $ref: modules/score.yaml
+    type: ContainerModule
     inputs:
       model_input:
-        $ref: MPI Train-f603dea4/model_output
+        $inputPath: train/model_output
       test_data:
-        $ref: inputs/test_data
+        $inputPath: datasets/genericcsv_automobile_price_data_raw.yaml
     outputs:
       score_output:
         mode: mount
-  Evaluate-9ac3f118:
+  eval:
     $ref: modules/evaluate.yaml
+    type: ContainerModule
     inputs:
       scoring_result:
-        $ref: Score-9afa682f/score_output
+        $inputPath: score/score_output
     outputs:
       eval_output:
         mode: mount
