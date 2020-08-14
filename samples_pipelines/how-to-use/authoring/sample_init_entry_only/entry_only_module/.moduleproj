@@ -1,0 +1,4 @@
+modules:
+-   entry: entry_only_module.py
+    sourceDirectory: .
+    spec: spec/entry_only_module.spec.yaml
