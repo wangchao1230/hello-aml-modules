@@ -35,7 +35,7 @@ def fasttext_train(
     map_id_label, map_label_id = get_id_label(path_label)
     n_class_ = len(map_id_label)
     vocab_size_ = len(word_to_index)
-    max_len_ = 38
+    max_len_ = 32
     stop_patience = 5
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     path = os.path.join(training_data_dir, 'data.txt')

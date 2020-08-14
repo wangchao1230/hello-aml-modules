@@ -21,7 +21,8 @@ class TestFasttextScore(unittest.TestCase):
         # Change to your own inputs
         return {'fasttext_model_dir': str(self.base_path / 'fasttext_train' / 'data' / 'fasttext_train'
                                           / 'outputs' / 'trained_model_dir'),
-                'texts_to_score': str(self.base_path / 'data_for_batch_inference')
+                'texts_to_score': str(self.base_path / 'fasttext_score' / 'data' / 'fasttext_score'
+                                      / 'inputs' / 'input_files')
                 }
 
     def prepare_outputs(self) -> dict:
@@ -45,7 +46,7 @@ class TestFasttextScore(unittest.TestCase):
 
     def test_module_with_execute(self):
         # delete files created before
-        result_dir = '../data/fasttext_score/outputs/scored_data_output_dir'
+        result_dir = self.prepare_outputs()['scored_data_output_dir']
         os.makedirs(result_dir, exist_ok=True)
         if len(os.listdir(result_dir)) > 0:
             for file in os.listdir(result_dir):

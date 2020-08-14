@@ -34,7 +34,7 @@ class TestFasttextTrain(unittest.TestCase):
 
     def prepare_parameters(self) -> dict:
         # Change to your own parameters
-        return {'epochs': 2,
+        return {'epochs': 1,
                 'batch_size': 128,
                 'learning_rate': 0.0005,
                 'embedding_dim': 128
@@ -58,6 +58,9 @@ class TestFasttextTrain(unittest.TestCase):
         self.assertEqual(status, 'Completed', 'Module run failed.')
 
     def test_module_func(self):
+        paths = self.prepare_outputs()
+        for path in paths.values():
+            os.makedirs(path, exist_ok=True)
         # This test calls fasttext_train from parameters directly.
         fasttext_train(**self.prepare_arguments())
         # check the existence of BestModel

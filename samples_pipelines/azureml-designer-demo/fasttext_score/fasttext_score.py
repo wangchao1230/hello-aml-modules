@@ -29,7 +29,7 @@ def fasttext_score(
     path_label = os.path.join(fasttext_model_dir, 'label.txt')
     map_id_label, map_label_id = get_id_label(path_label)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    max_len_ = 38
+    max_len_ = 32
     path = os.path.join(fasttext_model_dir, 'BestModel')
     model = torch.load(f=path)
 

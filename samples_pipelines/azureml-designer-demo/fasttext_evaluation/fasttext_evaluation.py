@@ -29,14 +29,14 @@ def fasttext_evaluation(
     path_label = os.path.join(test_data_dir, 'label.txt')
     map_id_label, map_label_id = get_id_label(path_label)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    max_len_ = 38
+    max_len_ = 32
     path = os.path.join(test_data_dir, 'data.txt')
     test_samples = load_dataset(file_path=path, max_len=max_len_, word_to_index=word_to_index,
                                 map_label_id=map_label_id)
     test_iter = DataIter(test_samples)
     path = os.path.join(trained_model_dir, 'BestModel')
     model = torch.load(f=path)
-    os.makedirs(model_testing_result, exist_ok=True)
+    # os.makedirs(model_testing_result, exist_ok=True)
     path = os.path.join(model_testing_result, 'result.json')
     acc_ = test(model, test_iter, device)
     json.dump({"acc": acc_}, open(path, 'w'))

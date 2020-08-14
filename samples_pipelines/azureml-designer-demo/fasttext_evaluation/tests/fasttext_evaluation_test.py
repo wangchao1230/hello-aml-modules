@@ -44,11 +44,13 @@ class TestFasttextEvaluation(unittest.TestCase):
         local_module = Module.from_func(self.workspace, fasttext_evaluation)
         module = local_module()
         module.set_inputs(**self.prepare_inputs())
-        module.set_parameters(**self.prepare_parameters())
         status = module.run(use_docker=True)
         self.assertEqual(status, 'Completed', 'Module run failed.')
 
     def test_module_func(self):
+        paths = self.prepare_outputs()
+        for path in paths.values():
+            os.makedirs(path, exist_ok=True)
         # This test calls fasttext_evaluation from parameters directly.
         fasttext_evaluation(**self.prepare_arguments())
         # check the existence of result.json

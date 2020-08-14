@@ -52,7 +52,7 @@ def split_data_txt(
     path_label = os.path.join(input_dir, 'label.txt')
     path_word_to_index = os.path.join(input_dir, 'word_to_index.json')
 
-    os.makedirs(training_data_output, exist_ok=True)
+    # os.makedirs(training_data_output, exist_ok=True)
     shutil.copy(src=path_label, dst=training_data_output)
     shutil.copy(src=path_word_to_index, dst=training_data_output)
     path = os.path.join(training_data_output, "data.txt")
@@ -61,14 +61,14 @@ def split_data_txt(
 
     shutil.copy(src=path_label, dst=validation_data_output)
     shutil.copy(src=path_word_to_index, dst=validation_data_output)
-    os.makedirs(validation_data_output, exist_ok=True)
+    # os.makedirs(validation_data_output, exist_ok=True)
     path = os.path.join(validation_data_output, "data.txt")
     with open(path, 'w', encoding='utf-8') as f:
         f.writelines(dev)
 
     shutil.copy(src=path_label, dst=test_data_output)
     shutil.copy(src=path_word_to_index, dst=test_data_output)
-    os.makedirs(test_data_output, exist_ok=True)
+    # os.makedirs(test_data_output, exist_ok=True)
     path = os.path.join(test_data_output, "data.txt")
     with open(path, 'w', encoding='utf-8') as f:
         f.writelines(test)

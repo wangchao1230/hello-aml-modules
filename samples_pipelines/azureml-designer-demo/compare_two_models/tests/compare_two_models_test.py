@@ -44,11 +44,13 @@ class TestCompareTwoModels(unittest.TestCase):
         return result
 
     def test_module_from_func(self):
+        paths = self.prepare_outputs()
+        for path in paths.values():
+            os.makedirs(path, exist_ok=True)
         # This test calls compare_two_models from cmd line arguments.
         local_module = Module.from_func(self.workspace, compare_two_models)
         module = local_module()
         module.set_inputs(**self.prepare_inputs())
-        module.set_parameters(**self.prepare_parameters())
         status = module.run(use_docker=True)
         self.assertEqual(status, 'Completed', 'Module run failed.')
 
