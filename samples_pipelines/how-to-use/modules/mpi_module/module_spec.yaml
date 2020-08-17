@@ -39,6 +39,8 @@ outputs:
 implementation:
   container:
     amlEnvironment:
+      docker:
+        baseImage: mcr.microsoft.com/azureml/base:openmpi3.1.2-ubuntu16.04
       python:
         condaDependencies:
           name: project_environment
