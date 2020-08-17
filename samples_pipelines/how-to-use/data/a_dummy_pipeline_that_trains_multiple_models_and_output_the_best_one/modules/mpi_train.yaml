@@ -1,0 +1,53 @@
+$schema: http://azureml/sdk-2-0/ContainerModule.json
+
+amlModuleIdentifier:
+  namespace: microsoft.com/aml/samples
+  moduleName: MPI Train
+  moduleVersion: 0.0.5
+isDeterministic: True
+jobType: Mpi
+description: A dummy module to show how to describe MPI module with custom module spec.
+inputs:
+- name: training_data
+  type:
+  - AnyFile
+  - AnyDirectory
+  optional: False
+  description: Training data organized in the torchvision format/structure
+  argumentName: training_data
+- name: max_epochs
+  type: Integer
+  optional: False
+  description: Maximum number of epochs for the training
+  argumentName: max_epochs
+- name: learning_rate
+  type: Float
+  optional: False
+  default: 0.01
+  description: Learning rate, default is 0.01
+  argumentName: learning_rate
+outputs:
+- name: model_output
+  type: AnyFile
+  description: The output model (zipped)
+  argumentName: model_output
+implementation:
+  container:
+    amlEnvironment:
+      python:
+        condaDependencies:
+          name: project_environment
+          channels:
+          - defaults
+          dependencies:
+          - python=3.6.8
+          - pip:
+            - azureml-sdk
+            - torch
+            - horovod[pytorch]
+      docker:
+        baseImage: mcr.microsoft.com/azureml/base:intelmpi2018.3-ubuntu16.04
+    command: [/opt/miniconda/envs/amlbert/bin/python, mpi_train.py]
+    args: [--training_data, {inputPath: training_data}, --max_epochs, {inputValue: max_epochs}, --learning_rate, {inputValue: learning_rate}, --model_output, {outputPath: model_output}]
+  os: Linux
+...

@@ -1,0 +1,42 @@
+$schema: http://azureml/sdk-2-0/ContainerModule.json
+
+amlModuleIdentifier:
+  namespace: microsoft.com/aml/samples
+  moduleName: Score
+  moduleVersion: 0.0.3
+isDeterministic: True
+jobType: Basic
+description: A dummy scoring module
+inputs:
+- name: model_input
+  type: AnyFile
+  optional: False
+  argumentName: model_input
+- name: test_data
+  type:
+  - AnyFile
+  - AnyDirectory
+  optional: False
+  argumentName: test_data
+outputs:
+- name: score_output
+  type: AnyFile
+  argumentName: score_output
+implementation:
+  container:
+    amlEnvironment:
+      python:
+        condaDependencies:
+          name: project_environment
+          channels:
+          - defaults
+          dependencies:
+          - python=3.6.8
+          - pip:
+            - azureml-defaults
+      docker:
+        baseImage: mcr.microsoft.com/azureml/base:intelmpi2018.3-ubuntu16.04
+    command: [python, score.py]
+    args: [--model_input, {inputPath: model_input}, --test_data, {inputPath: test_data}, --score_output, {outputPath: score_output}]
+  os: Linux
+...
