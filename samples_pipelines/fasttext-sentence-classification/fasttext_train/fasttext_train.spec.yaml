@@ -1,0 +1,86 @@
+#  This is an auto generated module spec yaml file.
+#  For more details, please refer to https://aka.ms/azureml-module-specs
+amlModuleIdentifier:
+  moduleName: FastText Train
+  moduleVersion: 0.0.41
+description: Train the fastText model.
+implementation:
+  container:
+    amlEnvironment:
+      docker:
+        baseImage: mcr.microsoft.com/azureml/intelmpi2018.3-cuda10.0-cudnn7-ubuntu16.04
+      python:
+        condaDependenciesFile: conda.yaml
+    args:
+    - [--training_data_dir, inputPath: Training data dir]
+    - [--validation_data_dir, inputPath: Validation data dir]
+    - [--epochs, inputValue: Epochs]
+    - [--batch_size, inputValue: Batch size]
+    - [--max_len, inputValue: Max len]
+    - [--embed_dim, inputValue: Embed dim]
+    - [--hidden_size, inputValue: Hidden size]
+    - [--ngram_size, inputValue: Ngram size]
+    - [--dropout, inputValue: Dropout]
+    - [--learning_rate, inputValue: Learning rate]
+    - --trained_model_dir
+    - outputPath: Trained model dir
+    command:
+    - python
+    - fasttext_train/fasttext_train.py
+    sourceDirectory: ../
+inputs:
+- name: Training data dir
+  type: AnyDirectory
+  argumentName: training_data_dir
+  optional: true
+- name: Validation data dir
+  type: AnyDirectory
+  argumentName: validation_data_dir
+  optional: true
+- name: Epochs
+  type: Integer
+  argumentName: epochs
+  default: 1
+  optional: true
+- name: Batch size
+  type: Integer
+  argumentName: batch_size
+  default: 64
+  optional: true
+- name: Max len
+  type: Integer
+  argumentName: max_len
+  default: 32
+  optional: true
+- name: Embed dim
+  type: Integer
+  argumentName: embed_dim
+  default: 300
+  optional: true
+- name: Hidden size
+  type: Integer
+  argumentName: hidden_size
+  default: 256
+  optional: true
+- name: Ngram size
+  type: Integer
+  argumentName: ngram_size
+  default: 200000
+  optional: true
+- name: Dropout
+  type: Float
+  argumentName: dropout
+  default: 0.5
+  optional: true
+- name: Learning rate
+  type: Float
+  argumentName: learning_rate
+  default: 0.001
+  optional: true
+metadata:
+  annotations:
+    codegenBy: dsl.module
+outputs:
+- name: Trained model dir
+  type: ModelDirectory
+  argumentName: trained_model_dir

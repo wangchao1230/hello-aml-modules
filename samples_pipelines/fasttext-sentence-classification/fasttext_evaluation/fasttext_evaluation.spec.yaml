@@ -1,0 +1,38 @@
+#  This is an auto generated module spec yaml file.
+#  For more details, please refer to https://aka.ms/azureml-module-specs
+amlModuleIdentifier:
+  moduleName: FastText Evaluation
+  moduleVersion: 0.0.8
+description: Evaluate the trained fastText model
+implementation:
+  container:
+    amlEnvironment:
+      docker:
+        baseImage: mcr.microsoft.com/azureml/intelmpi2018.3-cuda10.0-cudnn7-ubuntu16.04
+      python:
+        condaDependenciesFile: conda.yaml
+    args:
+    - [--trained_model_dir, inputPath: Trained model dir]
+    - [--test_data_dir, inputPath: Test data dir]
+    - --model_testing_result
+    - outputPath: Model testing result
+    command:
+    - python
+    - fasttext_evaluation/fasttext_evaluation.py
+    sourceDirectory: ../
+inputs:
+- name: Trained model dir
+  type: AnyDirectory
+  argumentName: trained_model_dir
+  optional: true
+- name: Test data dir
+  type: AnyDirectory
+  argumentName: test_data_dir
+  optional: true
+metadata:
+  annotations:
+    codegenBy: dsl.module
+outputs:
+- name: Model testing result
+  type: AnyDirectory
+  argumentName: model_testing_result
