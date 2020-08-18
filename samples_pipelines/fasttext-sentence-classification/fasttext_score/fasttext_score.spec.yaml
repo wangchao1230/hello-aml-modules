@@ -1,0 +1,38 @@
+#  This is an auto generated module spec yaml file.
+#  For more details, please refer to https://aka.ms/azureml-module-specs
+amlModuleIdentifier:
+  moduleName: FastText Score
+  moduleVersion: 0.0.23
+description: Predict the categories of the input sentences
+implementation:
+  parallel:
+    amlEnvironment:
+      docker:
+        baseImage: mcr.microsoft.com/azureml/intelmpi2018.3-cuda10.0-cudnn7-ubuntu16.04
+      python:
+        condaDependenciesFile: conda.yaml
+    args:
+    - [--fasttext_model_dir, inputPath: Fasttext model dir]
+    - --scored_data_output_dir
+    - outputPath: Scored data output dir
+    entry: fasttext_score/fasttext_score.py
+    inputData:
+    - Texts to score
+    outputData: Scored data output dir
+    sourceDirectory: ../
+inputs:
+- name: Texts to score
+  type: AnyDirectory
+  argumentName: texts_to_score
+- name: Fasttext model dir
+  type: AnyDirectory
+  argumentName: fasttext_model_dir
+  optional: true
+jobType: parallel
+metadata:
+  annotations:
+    codegenBy: dsl.module
+outputs:
+- name: Scored data output dir
+  type: AnyDirectory
+  argumentName: scored_data_output_dir
