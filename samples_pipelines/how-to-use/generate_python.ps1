@@ -5,5 +5,4 @@ $header = @"
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # ---------------------------------------------------------
 "@
-ls *.py | % { $($header; (Get-Content $_)) | Set-Content $_}
-
+# ls *.py | % { $($header; (Get-Content $_)) | Set-Content $_}
