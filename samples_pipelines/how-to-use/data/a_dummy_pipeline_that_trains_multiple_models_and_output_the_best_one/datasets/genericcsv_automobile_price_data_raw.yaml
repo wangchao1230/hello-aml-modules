@@ -1,0 +1,7 @@
+$schema: http://azureml/sdk-2-0/Dataset.json
+type: Dataset
+name: genericcsv_automobile_price_data_raw
+data_reference_name: genericcsv_automobile_price_data_raw
+path_on_datastore: GenericCSV/Automobile_price_data_(Raw)
+datastore: azureml_globaldatasets
+nodeId: fada1314-c106-37d2-81dc-6ea1068f7f9a

@@ -1,0 +1,9 @@
+$schema: http://azureml/sdk-2-0/Dataset.json
+type: Dataset
+name: aml_module_training_data
+description: Training data (just for illustrative purpose)
+version: 1
+tags: {}
+registered_id: 26244731-3820-4c47-a871-70461c69eee1
+saved_id: 3680fe5e-306b-4489-ba3d-02e9afd12d9d
+nodeId: e49c009e-ced8-3190-914e-d445fe95197a
