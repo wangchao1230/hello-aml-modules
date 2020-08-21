@@ -1,0 +1,6 @@
+.idea
+.backup
+.ipynb_checkpoints
+.vscode
+__pycache__
+data
