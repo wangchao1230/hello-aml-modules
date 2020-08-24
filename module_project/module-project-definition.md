@@ -22,11 +22,9 @@ TODO: yaml module configuration
 ```yaml
 modules:
 -   entry: module_proj_module1.py
-    spec: modules/module_proj_module1.spec.yaml
-	# source directory not specified: default value . will be taken
+    spec: modules/module_proj_module1.spec.yaml # source directory not specified: default value . will be taken
 -   entry: module_proj_module2.py 
-    sourceDirectory: module_proj_module2
-    # spec not specified: default value module_proj_module2.spec.yaml will be taken
+    sourceDirectory: module_proj_module2 # spec not specified: default value module_proj_module2.spec.yaml will be taken
 ```
 
 ![image-20200824141143666](./example1.png)
@@ -46,7 +44,7 @@ modules:
 ```yaml
 modules:
 -   entry: dsl_module_entry.py
-	preBuild: ./pre-build.ps1 # this will be executed before building
-	postBuild: ./post-build.ps1 # this will be executed after building
+    preBuild: ./pre-build.ps1 # this will be executed before building
+    postBuild: ./post-build.ps1 # this will be executed after building
 ```
 
