@@ -1,0 +1,11 @@
+channels:
+- defaults
+dependencies:
+- python=3.6.6
+- pip:
+  - --extra-index-url=https://azuremlsdktestpypi.azureedge.net/CLI-SDK-Runners-Validation/20471586
+  - azureml-defaults==0.1.0.20471586
+  - azureml-pipeline-wrapper==0.1.0.20471586
+  - tensorflow==1.15.2
+  - pillow
+name: batch_environment
