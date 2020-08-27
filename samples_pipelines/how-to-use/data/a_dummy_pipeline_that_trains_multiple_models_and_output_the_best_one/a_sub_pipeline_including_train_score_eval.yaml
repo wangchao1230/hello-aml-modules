@@ -1,23 +1,22 @@
 $schema: http://azureml/sdk-2-0/PipelineModule.json
 type: PipelineModule
-name: a_sub_pipeline_including_train_score_eval
+name: A sub pipeline including train/score/eval
 description: train model and evaluate model perf
-is_primary: false
 inputs:
   input_data:
     default:
-    type: dict
+    type: LocalPath
   test_data:
     default:
-    type: dict
+    type: LocalPath
   learning_rate:
     default:
     type: float
 outputs:
   eval_output:
-    mode: mount
+    type: AnyDirectory
   model_output:
-    mode: mount
+    type: AnyFile
 graph:
   train:
     $ref: modules/mpi_train.yaml
