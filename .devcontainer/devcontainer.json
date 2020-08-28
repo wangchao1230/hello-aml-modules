@@ -1,7 +1,7 @@
 {
-	"name": "AzuremlSDK-Python3-Miniconda",
+	"name": "AzuremlSDK-Python37",
 	// The image used when creating codespace. You could create an image with 'build_image.sh' conveniently
-	"image":"littlehaes/azureml-sdk",
+	"image":"modulesdkpreview/modulesdkpreview",
 
 	// If you don't assign the "image", you could create the codespace with 'Dockerfile'
 	// "context" is the path that the Codespaces docker build command should be run from, relative to devcontainer.json

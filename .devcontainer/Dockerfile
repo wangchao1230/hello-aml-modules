@@ -8,7 +8,7 @@ ARG USER_GID=$USER_UID
 # miniconda
 ARG CONDA_URL=https://repo.anaconda.com/miniconda/Miniconda3-py37_4.8.3-Linux-x86_64.sh
 ARG CONDA_DIR=/home/$USERNAME/.conda
-ARG CONDA_ENV_NAME=azureml
+ARG CONDA_ENV_NAME=modulesdkpreview
 ARG CONDA_ENV_DIR=$CONDA_DIR/envs/$CONDA_ENV_NAME
 ARG PYTHON_VERSION=3.7
 
@@ -22,7 +22,7 @@ ENV PATH $CONDA_DIR/bin:$CONDA_ENV_DIR/bin:$PATH
 # install common softwares
 RUN groupadd --gid 800 docker && \
     apt-get update --fix-missing && \
-    apt-get install -y apt-utils sudo apt-transport-https wget bzip2 ca-certificates curl gnupg-agent software-properties-common git vim htop tmux && \
+    apt-get install -y apt-utils sudo apt-transport-https wget bzip2 ca-certificates curl gnupg-agent software-properties-common git vim htop tmux zsh && \
     curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add - && \
     add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" && \
     apt-get update && \
@@ -52,7 +52,7 @@ RUN wget --quiet $CONDA_URL -O ~/miniconda.sh && \
     SDK_SOURCE=https://azuremlsdktestpypi.azureedge.net/$SDK_INDEX/$SDK_VERSION_SHORT && \
     SDK_VERSION_LONG=0.1.0.$SDK_VERSION_SHORT && \
     AZ_EXTENSION_SOURCE=https://azuremlsdktestpypi.azureedge.net/$SDK_INDEX/$SDK_VERSION_SHORT/azure_cli_ml-0.1.0.$SDK_VERSION_SHORT-py3-none-any.whl && \
-    $CONDA_DIR/envs/$CONDA_ENV_NAME/bin/pip install pandas azure-cli azureml-pipeline-wrapper[notebooks]==$SDK_VERSION_LONG azureml-dataset-runtime[fuse]==$SDK_VERSION_LONG --extra-index-url=$SDK_SOURCE && \
+    $CONDA_DIR/envs/$CONDA_ENV_NAME/bin/pip install azure-cli azureml-pipeline-wrapper[notebooks]==$SDK_VERSION_LONG azureml-dataset-runtime[fuse]==$SDK_VERSION_LONG --extra-index-url=$SDK_SOURCE --use-feature=2020-resolver && \
     az extension add --source $AZ_EXTENSION_SOURCE --pip-extra-index-urls $SDK_SOURCE --yes
 
 # change the user
