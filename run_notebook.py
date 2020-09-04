@@ -54,9 +54,9 @@ def replace_workspace(notebook_data, path):
                     if exp in codes[i]:
                         codes[i] = ''
                     if "ws = Workspace.from_config()" in codes[i]:
-                        codes[i] = "ws = Workspace.from_config('{}')\n".format(path)
+                        codes[i] = "ws = Workspace.from_config(r'{}')\n".format(path)
                     if "workspace = Workspace.from_config()" in codes[i]:
-                        codes[i] = "workspace = Workspace.from_config('{}')\n".format(path)
+                        codes[i] = "workspace = Workspace.from_config(r'{}')\n".format(path)
 
 
 if __name__ == '__main__':
