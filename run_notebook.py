@@ -44,7 +44,7 @@ def replace_kernel_to_notebook(notebook_data):
         name="python3"
     )
 
-def replace_workspace(notebook_data):
+def replace_workspace(notebook_data, path):
     cells = notebook_data["cells"]
     for cell in cells:
         if cell["cell_type"] == "code":
@@ -53,10 +53,10 @@ def replace_workspace(notebook_data):
                 for exp in exps:
                     if exp in codes[i]:
                         codes[i] = ''
-                    # if "ws = Workspace.from_config()" in codes[i]:
-                    #     codes[i] = ws
-                    # if "workspace = Workspace.from_config()" in codes[i]:
-                    #     codes[i] = workspace
+                    if "ws = Workspace.from_config()" in codes[i]:
+                        codes[i] = "ws = Workspace.from_config({})\n".format(path)
+                    if "workspace = Workspace.from_config()" in codes[i]:
+                        codes[i] = "workspace = Workspace.from_config({})\n".format(path)
 
 
 if __name__ == '__main__':
@@ -77,7 +77,7 @@ if __name__ == '__main__':
             notebook_data = json.load(nbfile)
 
         replace_kernel_to_notebook(notebook_data)
-        replace_workspace(notebook_data)
+        replace_workspace(notebook_data, path=folder)
 
         input_notebook = tempfile.mkstemp(suffix='.ipynb')[1]
         with open(input_notebook, 'w') as f:
