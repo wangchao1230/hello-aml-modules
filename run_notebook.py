@@ -20,8 +20,8 @@ exps = ["subcription_id = '<your subscription ID>'",
         "!az account set -s $SUBSCRIPTION_ID",
         "!az ml folder attach -w $WORKSPACE_NAME -g $RESOURCE_GROUP_NAME"
         ]
-ws = "ws = Workspace.get(subscription_id='4faaaf21-663f-4391-96fd-47197c630979', resource_group='DesignerTestRG', name='DesignerTest-WCUS')\n"
-workspace = "workspace = Workspace.get(subscription_id='4faaaf21-663f-4391-96fd-47197c630979', resource_group='DesignerTestRG', name='DesignerTest-WCUS')\n"
+# ws = "ws = Workspace.get(subscription_id='4faaaf21-663f-4391-96fd-47197c630979', resource_group='DesignerTestRG', name='DesignerTest-WCUS')\n"
+# workspace = "workspace = Workspace.get(subscription_id='4faaaf21-663f-4391-96fd-47197c630979', resource_group='DesignerTestRG', name='DesignerTest-WCUS')\n"
 
 
 def run_notebook(notebook, output_folder):
@@ -53,10 +53,10 @@ def replace_workspace(notebook_data):
                 for exp in exps:
                     if exp in codes[i]:
                         codes[i] = ''
-                    if "ws = Workspace.from_config()" in codes[i]:
-                        codes[i] = ws
-                    if "workspace = Workspace.from_config()" in codes[i]:
-                        codes[i] = workspace
+                    # if "ws = Workspace.from_config()" in codes[i]:
+                    #     codes[i] = ws
+                    # if "workspace = Workspace.from_config()" in codes[i]:
+                    #     codes[i] = workspace
 
 
 if __name__ == '__main__':
