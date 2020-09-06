@@ -11,7 +11,6 @@ import papermill
 
 extension = '.ipynb'
 
-
 exps = ["your subscription ID",
         "your workspace name",
         "your resource group",
@@ -59,14 +58,16 @@ def parse_ast(code_cell):
     :return: The ast.
     :rtype: ast obj
     """
-    try:
-        source = ''.join([line for line in code_cell['source']])
-        cell_ast = ast.parse(source)
-    except Exception as e:
-        print("Error occurs while trying to ast parse code in notebook")
-        print(e)
-        raise
-    return cell_ast
+    source = ''.join([line for line in code_cell['source']])
+    if "!az" not in source:
+        try:
+            cell_ast = ast.parse(source)
+        except Exception as e:
+            print("Error occurs while trying to ast parse code in notebook")
+            print(e)
+            raise
+        return cell_ast
+    return None
 
 
 def replace_workspace(notebook_data):
@@ -84,6 +85,9 @@ def replace_workspace(notebook_data):
                     codes[i] = ''
 
         cell_ast = parse_ast(cell)
+
+        if cell_ast is None:
+            continue
 
         for itr in range(len(cell_ast.body)):
             ast_obj = cell_ast.body[itr]
