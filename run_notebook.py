@@ -36,6 +36,21 @@ def replace_kernel_to_notebook(notebook_data):
     )
 
 
+def remove_exps(notebook_data):
+    cells = notebook_data.get('cells')
+
+    for cell_itr in range(len(cells)):
+        cell = cells[cell_itr]
+        if cell.get('cell_type') != 'code':
+            continue
+
+        codes = cell["source"]
+        for i in range(len(codes)):
+            for exp in exps:
+                if exp in codes[i]:
+                    notebook_data['cells'][cell_itr]["source"][i] = ''
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--notebook_folder_directory', type=str, nargs='+', help='Notebook folder directory', required=True)
@@ -65,6 +80,7 @@ if __name__ == '__main__':
                 notebook_data = json.load(nbfile)
 
             replace_kernel_to_notebook(notebook_data)
+            remove_exps(notebook_data)
 
             input_notebook = tempfile.mkstemp(suffix='.ipynb')[1]
             with open(input_notebook, 'w') as f:
