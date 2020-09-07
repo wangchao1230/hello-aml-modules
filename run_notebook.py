@@ -64,7 +64,10 @@ if __name__ == '__main__':
     summary = "\n\n=============================RUN SUMMARY=============================\n"
 
     succeed_flag = True
-    for folder in folder_list:
+    for folder_path in folder_list:
+        os.chdir(folder_path)
+        folder = "../" + os.path.basename(folder_path)
+
         failed_notebooks = 0
         summary += "Notebooks in {} \n".format(folder)
         print('START: Running Notebooks in {}.'.format(folder))
