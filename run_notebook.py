@@ -110,4 +110,4 @@ if __name__ == '__main__':
     print(summary)
     if succeed_flag is False:
         print("Run Failed")
-        raise Exception
+        raise Exception("Run Failed, refer to Summary above for more information.")
