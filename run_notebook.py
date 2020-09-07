@@ -63,6 +63,7 @@ if __name__ == '__main__':
 
     summary = "\n\n=============================RUN SUMMARY=============================\n"
 
+    succeed_flag = True
     for folder in folder_list:
         failed_notebooks = 0
         summary += "Notebooks in {} \n".format(folder)
@@ -94,15 +95,19 @@ if __name__ == '__main__':
                 run_notebook(input_notebook, output_folder)
                 end_time2 = time.time()
                 end_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-                summary += "Run notebook {0} elapsed: {1} seconds. Start time: {2}, End Time: {3}.\n".format(notebook_file_name, round(end_time2-start_time2, 2), start_time, end_time)
+                summary += "[Success] Run notebook {0} elapsed: {1} seconds. Start time: {2}, End Time: {3}.\n".format(notebook_file_name, round(end_time2-start_time2, 2), start_time, end_time)
             except Exception as e:
                 print(e)
+                succeed_flag = False
                 failed_notebooks += 1
-                summary += "Run notebook {0} Failed!!! Start time: {1}.\n".format(notebook_file_name, start_time)
+                summary += "[Failed] Run notebook {0} Failed!!! Start time: {1}.\n".format(notebook_file_name, start_time)
                 if fail_fast_flag:
                     print(summary)
                     raise
 
         summary += "Success notebooks {0}/total {1}.\n\n".format(len(notebooks)-failed_notebooks, len(notebooks))
 
+    if succeed_flag is False:
+        print("Run Failed")
+        raise Exception
     print(summary)
