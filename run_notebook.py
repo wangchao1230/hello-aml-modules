@@ -50,13 +50,6 @@ if __name__ == '__main__':
 
     succeed_flag = True
     for folder in folder_list:
-        abs_path = os.path.abspath(__file__)
-        print('dir here:', os.getcwd())
-        print('dir abs:', os.path.abspath(__file__))
-
-        os.chdir(folder)
-        folder = "../" + os.path.basename(folder)
-
         failed_notebooks = 0
         summary += "Notebooks in {} \n".format(folder)
         print('START: Running Notebooks in {}.'.format(folder))
