@@ -54,15 +54,18 @@ def remove_exps(notebook_data):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--notebook_folder_directory', type=str, nargs='+', help='Notebook folder directory', required=True)
+    parser.add_argument('--fail_fast', type=bool, help='Whether to stop running notebooks immediately when error occurs', required=True, default=True)
 
     args, _ = parser.parse_known_args(sys.argv)
 
     folder_list = args.notebook_folder_directory
+    fail_fast = args.fail_fast
 
-    summary = ["=============RUN SUMMARY=============\n"]
+    summary = "=============================RUN SUMMARY=============================\n"
 
     for folder in folder_list:
-        summary.append("Notebooks in {} \n".format(folder))
+        failed_notebooks = 0
+        summary += "Notebooks in {} \n".format(folder)
         print('START: Running Notebooks in {}.'.format(folder))
         glob_path = folder + "\*.ipynb"
 
@@ -70,7 +73,8 @@ if __name__ == '__main__':
         if not os.path.exists(output_folder):
             os.makedirs(output_folder)
 
-        for notebook in glob.glob(glob_path):
+        notebooks = glob.glob(glob_path)
+        for notebook in notebooks:
             with open(notebook) as nbfile:
                 notebook_data = json.load(nbfile)
 
@@ -85,11 +89,19 @@ if __name__ == '__main__':
             try:
                 notebook_file_name = os.path.basename(notebook)
                 print("==============Running {}==============".format(notebook_file_name))
-                start_time = time.time()
+                start_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+                start_time2 = time.time()
                 run_notebook(input_notebook, output_folder)
-                end_time = time.time()
-                summary.append("Run notebook {0} elapsed: {1} seconds.\n".format(notebook_file_name, end_time-start_time))
+                end_time2 = time.time()
+                end_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+                summary += "Run notebook {0} elapsed: {1} seconds. Start time: {2}, End Time: {3}.\n".format(notebook_file_name, round(end_time2-start_time2, 2), start_time, end_time)
             except Exception as e:
                 print(e)
-                print(summary)
-                raise
+                failed_notebooks += 1
+                if fail_fast:
+                    print(summary)
+                    raise
+
+        summary += "Success notebooks {0}/total {1}.".format(len(notebooks)-failed_notebooks, len(notebooks))
+
+    print(summary)
