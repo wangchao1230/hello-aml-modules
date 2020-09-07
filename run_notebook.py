@@ -54,7 +54,7 @@ if __name__ == '__main__':
         print('dir here:', os.getcwd())
         print('dir abs:', os.path.abspath(__file__))
 
-        os.chdir(abs_path + "/" + folder)
+        os.chdir(folder)
         folder = "../" + os.path.basename(folder)
 
         failed_notebooks = 0
