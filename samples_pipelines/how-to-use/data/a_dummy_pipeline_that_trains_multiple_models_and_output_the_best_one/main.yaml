@@ -1,14 +1,14 @@
 $schema: http://azureml/sdk-2-0/PipelineModule.json
-name: a_dummy_pipeline_that_trains_multiple_models_and_output_the_best_one
+name: A dummy pipeline that trains multiple models and output the best one
 description: select best model trained with different learning rate
-is_primary: true
 inputs: {}
 outputs:
   best_model:
-    mode: mount
+    type: AnyFile
 graph:
   train_and_evalute_model1:
-    $ref: a_sub_pipeline_including_train_score_eval.yaml
+    component:
+      $ref: a_sub_pipeline_including_train_score_eval.yaml
     type: PipelineModule
     inputs:
       input_data:
@@ -22,7 +22,8 @@ graph:
       model_output:
         mode: mount
   train_and_evalute_model2:
-    $ref: a_sub_pipeline_including_train_score_eval.yaml
+    component:
+      $ref: a_sub_pipeline_including_train_score_eval.yaml
     type: PipelineModule
     inputs:
       input_data:
@@ -52,4 +53,5 @@ graph:
         mode: mount
       best_result:
         mode: mount
-target: aml:compute_targets/gpu-cluster
+target:
+  $ref: aml:compute_targets/gpu-cluster

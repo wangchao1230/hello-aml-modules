@@ -7,7 +7,7 @@ import pandas as pd
 from azureml.pipeline.wrapper.dsl.module import ModuleExecutor
 
 # The following line adds source directory to path.
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent))
 from fasttext_score import fasttext_score
 
 
