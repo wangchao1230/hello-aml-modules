@@ -50,8 +50,11 @@ if __name__ == '__main__':
 
     succeed_flag = True
     for folder in folder_list:
+        abs_path = os.path.abspath(__file__)
         print('dir here:', os.getcwd())
-        os.chdir(folder)
+        print('dir abs:', os.path.abspath(__file__))
+
+        os.chdir(abs_path + "/" + folder)
         folder = "../" + os.path.basename(folder)
 
         failed_notebooks = 0
