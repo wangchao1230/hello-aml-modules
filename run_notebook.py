@@ -50,6 +50,7 @@ if __name__ == '__main__':
 
     succeed_flag = True
     for folder in folder_list:
+        print('dir here:', os.getcwd())
         os.chdir(folder)
         folder = "../" + os.path.basename(folder)
 
