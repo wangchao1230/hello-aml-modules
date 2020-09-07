@@ -4,6 +4,7 @@ import os
 import sys
 import json
 import tempfile
+import time
 
 import papermill
 
@@ -58,7 +59,10 @@ if __name__ == '__main__':
 
     folder_list = args.notebook_folder_directory
 
+    summary = ["=============RUN SUMMARY=============\n"]
+
     for folder in folder_list:
+        summary.append("Notebooks in {} \n".format(folder))
         print('START: Running Notebooks in {}.'.format(folder))
         glob_path = folder + "\*.ipynb"
 
@@ -79,8 +83,13 @@ if __name__ == '__main__':
 
             # Run Notebook
             try:
-                print("===========================Running {}===========================".format(os.path.basename(notebook)))
+                notebook_file_name = os.path.basename(notebook)
+                print("==============Running {}==============".format(notebook_file_name))
+                start_time = time.time()
                 run_notebook(input_notebook, output_folder)
+                end_time = time.time()
+                summary.append("Run notebook {0} elapsed: {1} seconds.\n".format(notebook_file_name, end_time-start_time))
             except Exception as e:
                 print(e)
+                print(summary)
                 raise
