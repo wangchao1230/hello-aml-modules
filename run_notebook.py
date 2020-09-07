@@ -107,7 +107,7 @@ if __name__ == '__main__':
 
         summary += "Success notebooks {0}/total {1}.\n\n".format(len(notebooks)-failed_notebooks, len(notebooks))
 
+    print(summary)
     if succeed_flag is False:
         print("Run Failed")
         raise Exception
-    print(summary)
