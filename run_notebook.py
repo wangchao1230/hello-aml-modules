@@ -11,13 +11,9 @@ import papermill
 
 extension = '.ipynb'
 
-exps = ["your subscription ID",
-        "your workspace name",
-        "your resource group",
-        "!az login -o none",
+exps = ["!az login -o none",
         "!az account set -s $SUBSCRIPTION_ID",
-        "!az ml folder attach -w $WORKSPACE_NAME -g $RESOURCE_GROUP_NAME"
-        ]
+        "!az ml folder attach -w $WORKSPACE_NAME -g $RESOURCE_GROUP_NAME"]
 
 ws_get = ast.parse("ws = Workspace.get(subscription_id='4faaaf21-663f-4391-96fd-47197c630979', resource_group='DesignerTestRG', name='DesignerTest-WCUS')\n").body[0]
 workspace_get = ast.parse("workspace = Workspace.get(subscription_id='4faaaf21-663f-4391-96fd-47197c630979', resource_group='DesignerTestRG', name='DesignerTest-WCUS')\n").body[0]
@@ -31,7 +27,6 @@ def run_notebook(notebook, output_folder):
         input_path=notebook,
         output_path=output_folder + "\\" + os.path.basename(notebook)[:-6] + "_output" + extension,
         log_output=True,
-        # engine_name="azureml_engine",
     )
 
 
@@ -82,7 +77,7 @@ def replace_workspace(notebook_data):
         for i in range(len(codes)):
             for exp in exps:
                 if exp in codes[i]:
-                    codes[i] = ''
+                    cell["source"][i] = ''
 
         cell_ast = parse_ast(cell)
 
@@ -98,14 +93,14 @@ def replace_workspace(notebook_data):
                     ast_obj.value.func.value.id == 'Workspace':
                 if ast_obj.value.func.attr == 'get':
                     if ast_obj.targets[0].id == 'ws':
-                        cell_ast.body[itr].body = [ws_get]
+                        cell_ast.body[itr] = ws_get
                     elif ast_obj.targets[0].id == 'workspace':
-                        cell_ast.body[itr].body = [workspace_get]
+                        cell_ast.body[itr] = workspace_get
                 elif ast_obj.value.func.attr == 'from_config':
                     if ast_obj.targets[0].id == 'ws':
-                        cell_ast.body[itr].body = [ws_config]
+                        cell_ast.body[itr] = ws_config
                     elif ast_obj.targets[0].id == 'workspace':
-                        cell_ast.body[itr].body = [workspace_config]
+                        cell_ast.body[itr] = workspace_config
                 notebook_data['cells'][cell_itr]['source'] = astunparse.unparse(cell_ast)
 
 
