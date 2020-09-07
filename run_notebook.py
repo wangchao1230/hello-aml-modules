@@ -54,14 +54,14 @@ def remove_exps(notebook_data):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--notebook_folder_directory', type=str, nargs='+', help='Notebook folder directory', required=True)
-    parser.add_argument('--fail_fast', type=bool, help='Whether to stop running notebooks immediately when error occurs', required=True, default=True)
+    parser.add_argument('--fail_fast_flag', type=bool, help='Whether to stop running notebooks immediately when error occurs')
 
     args, _ = parser.parse_known_args(sys.argv)
 
     folder_list = args.notebook_folder_directory
-    fail_fast = args.fail_fast
+    fail_fast_flag = args.fail_fast_flag
 
-    summary = "=============================RUN SUMMARY=============================\n"
+    summary = "\n\n=============================RUN SUMMARY=============================\n"
 
     for folder in folder_list:
         failed_notebooks = 0
@@ -98,10 +98,11 @@ if __name__ == '__main__':
             except Exception as e:
                 print(e)
                 failed_notebooks += 1
-                if fail_fast:
+                summary += "Run notebook {0} Failed!!! Start time: {1}.\n".format(notebook_file_name, start_time)
+                if fail_fast_flag:
                     print(summary)
                     raise
 
-        summary += "Success notebooks {0}/total {1}.".format(len(notebooks)-failed_notebooks, len(notebooks))
+        summary += "Success notebooks {0}/total {1}.\n\n".format(len(notebooks)-failed_notebooks, len(notebooks))
 
     print(summary)
