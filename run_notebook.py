@@ -15,6 +15,8 @@ exps = ["!az login -o none",
         "!az account set -s $SUBSCRIPTION_ID",
         "!az ml folder attach -w $WORKSPACE_NAME -g $RESOURCE_GROUP_NAME"]
 
+not_parse_exp = ['!az', '%']
+
 ws_get = ast.parse("ws = Workspace.get(subscription_id='4faaaf21-663f-4391-96fd-47197c630979', resource_group='DesignerTestRG', name='DesignerTest-WCUS')\n").body[0]
 workspace_get = ast.parse("workspace = Workspace.get(subscription_id='4faaaf21-663f-4391-96fd-47197c630979', resource_group='DesignerTestRG', name='DesignerTest-WCUS')\n").body[0]
 
@@ -54,7 +56,7 @@ def parse_ast(code_cell):
     :rtype: ast obj
     """
     source = ''.join([line for line in code_cell['source']])
-    if "!az" not in source:
+    if all(exp not in source for exp in not_parse_exp):
         try:
             cell_ast = ast.parse(source)
         except Exception as e:
