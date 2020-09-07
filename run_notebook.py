@@ -52,32 +52,35 @@ def remove_exps(notebook_data):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--notebook_folder_directory', type=str, help='Notebook folder directory', required=True)
+    parser.add_argument('--notebook_folder_directory', type=str, nargs='+', help='Notebook folder directory', required=True)
 
     args, _ = parser.parse_known_args(sys.argv)
 
-    folder = args.notebook_folder_directory
-    glob_path = args.notebook_folder_directory + "\*.ipynb"
+    folder_list = args.notebook_folder_directory
 
-    output_folder = folder + "\\notebook_output"
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)
+    for folder in folder_list:
+        print('START: Running Notebooks in {}.'.format(folder))
+        glob_path = folder + "\*.ipynb"
 
-    for notebook in glob.glob(glob_path):
-        with open(notebook) as nbfile:
-            notebook_data = json.load(nbfile)
+        output_folder = folder + "\\notebook_output"
+        if not os.path.exists(output_folder):
+            os.makedirs(output_folder)
 
-        replace_kernel_to_notebook(notebook_data)
-        remove_exps(notebook_data)
+        for notebook in glob.glob(glob_path):
+            with open(notebook) as nbfile:
+                notebook_data = json.load(nbfile)
 
-        input_notebook = tempfile.mkstemp(suffix='.ipynb')[1]
-        with open(input_notebook, 'w') as f:
-            json.dump(notebook_data, f, indent=4)
+            replace_kernel_to_notebook(notebook_data)
+            remove_exps(notebook_data)
 
-        # Run Notebook
-        try:
-            print("===========================Running {}===========================".format(os.path.basename(notebook)))
-            run_notebook(input_notebook, output_folder)
-        except Exception as e:
-            print(e)
-            raise
+            input_notebook = tempfile.mkstemp(suffix='.ipynb')[1]
+            with open(input_notebook, 'w') as f:
+                json.dump(notebook_data, f, indent=4)
+
+            # Run Notebook
+            try:
+                print("===========================Running {}===========================".format(os.path.basename(notebook)))
+                run_notebook(input_notebook, output_folder)
+            except Exception as e:
+                print(e)
+                raise
