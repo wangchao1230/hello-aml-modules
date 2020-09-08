@@ -65,6 +65,9 @@ if __name__ == '__main__':
 
     succeed_flag = True
     for folder_path in folder_list:
+        # go back to run_notebook.py root path
+        os.chdir(sys.path[0])
+        # enter notebooks path
         os.chdir(folder_path)
         folder = "../" + os.path.basename(folder_path)
 
