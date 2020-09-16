@@ -1,0 +1,40 @@
+amlModuleIdentifier:
+  moduleName: Train Test Data Split
+  moduleVersion: 0.0.1
+  namespace: microsoft.com/azureml/samples
+inputs:
+- name: Transformed data
+  type: DataFrameDirectory
+outputs:
+- name: Output split train
+  type: DataFrameDirectory
+- name: Output split test
+  type: DataFrameDirectory
+implementation:
+  container:
+    amlEnvironment:
+      docker:
+        baseImage: mcr.microsoft.com/azureml/intelmpi2018.3-ubuntu16.04
+      python:
+        condaDependencies:
+          name: project_environment
+          channels:
+            - defaults
+            - pandas
+            - scikit-learn
+          dependencies:
+            - python=3.7.6
+            - pip:
+              - azureml-sdk==0.1.0.*
+              - azureml-designer-core==0.0.31
+              - azureml-dataset-runtime[fuse,pandas]
+              - --index-url https://azuremlsdktestpypi.azureedge.net/dev/aml/office/134157926D8F 
+              - --extra-index-url https://pypi.org/simple
+              - pyarrow
+              - scikit-learn
+    command: [python, train_test_split.py]
+    args: [
+      --transformed_data, {inputPath: Transformed data},
+      --output_split_train, {outputPath: Output split train},
+      --output_split_test, {outputPath: Output split test},
+    ]
