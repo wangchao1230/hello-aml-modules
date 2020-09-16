@@ -1,6 +1,6 @@
 amlModuleIdentifier:
   moduleName: Hello World
-  moduleVersion: 0.0.1
+  moduleVersion: 0.0.2
   namespace: microsoft.com/azureml/samples
 metadata:
   annotations:
@@ -28,9 +28,20 @@ inputs:
   type: Enum
   default: option1
   options:
-    - option1
-    - option2
-    - option3
+  - option1:
+    - name: nested parameter 1
+      type: Boolean
+      optional: False
+      default: True
+      description: nested parameter 1
+      argumentName: nested_parameter_1
+  - option2:
+    - name: nested parameter 2
+      type: Boolean
+      optional: False
+      default: True
+      description: nested parameter 2
+      argumentName: nested_parameter_2
 outputs:
 - name: Output path
   type: DataFrameDirectory
