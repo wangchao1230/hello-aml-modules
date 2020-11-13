@@ -2,45 +2,35 @@
 # Licensed under the MIT License.
 
 $schema: http://azureml/sdk-2-0/CommandComponent.json
-name: Build Artifact Demo
-command:
-- python
-- invoker.py
-- --input
-- $inputPath: inputs.input_port
-- --parameter-1
-- $inputValue: inputs.parameter_1
-- --parameter-2
-- $inputValue: inputs.parameter_2
-- --output
-- $outputPath: outputs.output_port
-description: A sample component for Azure DevOps Build Artifact.
+name: microsoft.com.office.build_artifact_demo
+version: 0.0.1
 display_name: Build Artifact Demo
+type: CommandComponent
+description: A sample component for Azure DevOps Build Artifact.
+tags:
+  nlp:
+  bert:
+  helpDocument: http://readthedocs.com/proj
+  contact: AzureML Studio Team <stcamlstudiosg@microsoft.com>
+inputs:
+  input_port:
+    type: path
+    optional: false
+  parameter_1:
+    type: String
+    default: hello
+    optional: false
+  parameter_2:
+    type: Integer
+    default: 1
+    optional: false
+outputs:
+  output_port:
+    type: path
+command: >-
+  python invoker.py --input {inputs.input_port} --parameter-1 {inputs.parameter_1}
+  --parameter-2 {inputs.parameter_2} --output {outputs.output_port}
 environment:
   docker:
     image: mcr.microsoft.com/azureml/base:intelmpi2018.3-ubuntu16.04
   os: Linux
-inputs:
-  input_port:
-    optional: false
-    type: AnyDirectory
-  parameter_1:
-    default: hello
-    optional: false
-    type: String
-  parameter_2:
-    default: 1
-    optional: false
-    type: Integer
-is_deterministic: true
-metadata:
-  contact: AzureML Studio Team <stcamlstudiosg@microsoft.com>
-  helpDocument: http://readthedocs.com/proj
-  tags:
-  - nlp
-  - bert
-outputs:
-  output_port:
-    type: AnyDirectory
-type: CommandComponent
-version: 0.0.1
